@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVENT</title>
+</head>
+<body>
+    <h1><%= event.title %> </h1>
+    <ul>
+        <li>DESCRIPTION : <%= event.description %> </li>
+        <li>ISSUE DATE : <%= event.issue_date %> </li>
+        <li>EXPIRY DATE : <%= event.expiry_date %> </li>
+    </ul>
+    <div>
+        <a href="/events/<%= event._id %>/edit">EDIT</a>
+    </div>
+    <hr>
+    <div>
+        <a href="/events">ALL EVENTS</a>
+    </div>
+    <form action="/events/<%=event._id%>?_method=DELETE" method="post">
+        <button>DELETE</button>
+    </form>
+</body>
+</html>

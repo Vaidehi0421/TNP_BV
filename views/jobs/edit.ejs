@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit</title>
+</head>
+<body>
+    
+    <h1>Edit Job</h1>
+    <form action="/jobs/<%= job._id %>?_method=PUT" method="POST">
+        <div>
+            <label for="title">Title</label>
+            <input type="text" id="title" name="jobs[title]" value="<%= job.title %>">
+        </div>
+        <div>
+            <label for="description">Description</label>
+            <textarea name="jobs[description]" id="description" required><%= job.description %></textarea>
+        </div>
+        <div>
+            <label for="marks_criteria">Criteria</label>
+            <input type="text" id="marks_criteria" name="jobs[marks_criteria]" value="<%= job.marks_criteria %>">
+        </div>
+        <button>Update Job</button>
+    </form>
+    <div>
+        <a href="/jobs/<%= job._id %>">GO BACK</a>
+    </div>
+
+    <form action="/jobs/<%= job._id %>?_method=DELETE" method="post">
+        <button>DELETE</button>
+    </form>
+
+</body>
+</html>

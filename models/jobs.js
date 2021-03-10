@@ -6,7 +6,7 @@ const JobSchema = new mongoose.Schema({
         required: true
     },
     marks_criteria: {
-        type: Number
+        type: String
     },
     description:{
         type: String,
