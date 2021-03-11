@@ -1,0 +1,35 @@
+<% layout('layouts/boilerplate')%>
+<div class="row">
+    <h1 class="text-center">Edit notice</h1>
+    <div class="col-6 offset-3">
+        <form action="/notices/<%=notice._id%>?_method=PUT" method="POST" novalidate class="validated-form">
+            <div class="mb-3">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" type="text" id="title" name="notices[title]"
+                    value="<%=notice.title %>" required>                    
+            </div>
+            <div>
+                <label  class="form-label" for="description">Description</label>
+                <textarea class="form-control"  name="notices[description]" id="description" required><%= notice.description %></textarea>
+            </div>
+            <div>
+            <label class="form-label" for="issue_date">ISSUE DATE</label>
+            <input  class="form-control" type="date" id="issue_date" name="notices[issue_date]" value="<%= notice.issue_date %>">
+
+            </div>
+            <div>
+                <label class="form-label" for="expiry_date">EXPIRY DATE</label>
+                <input class="form-control" type="date" id="expiry_date" name="notices[expiry_date]" value=<% JSON.stringify((notice.expiry_date )).substring(0, 11) %>>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-info mt-3">UPDATE</button>
+            </div>
+        </form>
+        <div>
+        <form  class="d-inline" action="/notices/<%= notice._id %>" method="GET">
+            <button class="btn btn-info mb-2 d-inline">GO BACK</button>
+        </form>
+        <form  class="d-inline" action="/notices/<%= notice._id %>?_method=DELETE" method="post">
+            <button class="btn btn-danger mb-2 d-inline">DELETE</button>
+        </form>
+    </div>

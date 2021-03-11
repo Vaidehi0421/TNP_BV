@@ -1,0 +1,20 @@
+<% layout('layouts/boilerplate')%>
+<h1>All Notices</h1>
+    <% for(let notice of notices ) { %>
+    <div class="card mb-3">
+        <div class="row">
+            <div class="col-md-8 mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Notice title: <%= notice.title %> </h5>
+                    <p class="card-text">
+                        <small class="text-muted">Notice Issue Date: <%= notice.issue_date%></small>
+                    </p>
+                    <a class="btn btn-primary" href="/notices/<%=notice._id%>">View <%=notice.title%></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% }%>
+    <div > 
+        <a class="btn btn-info mt-3 mb-3" href="notices/new">ADD A NEW NOTICE</a>
+    </div>

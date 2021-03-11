@@ -1,0 +1,30 @@
+<% layout('layouts/boilerplate')%>
+<div class="row">
+    <h1 class="text-center">Add a New notice</h1>
+    <div class="col-6 offset-3">
+        <form action="/notices" method="POST">
+            <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" id="title" name="notices[title]"class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" name="notices[description]" id="description" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="issue_date">ISSUE DATE</label>
+                <input  class="form-control" type="date" id="issue_date" name="notices[issue_date]" required>
+            </div>
+            <div>
+                <label class="form-label" for="expiry_date">EXPIRY DATE</label>
+                <input  class="form-control" type="date" id="expiry_date" name="notices[expiry_date]" required>
+            </div>
+            <div class="mb-3 mt-3">
+                <button class="btn btn-success">Add notice</button>
+            </div>
+        </form>
+        <form action="/notices">
+            <button class="btn btn-info">All notices</button>
+        </form>
+    </div>
+</div>

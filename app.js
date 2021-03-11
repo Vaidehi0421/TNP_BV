@@ -134,6 +134,53 @@ app.delete('/events/:id', async (req,res) => {
     res.redirect('/events');
 })
 
+//Displays all the notices
+app.get('/notices', async (req,res)=>{
+    const notices = await Notice.find({});
+    res.render('notices/index', { notices });
+})
+
+//Displays the form to add a new notice
+app.get('/notices/new', (req,res) => {
+    res.render('notices/new');
+})
+
+
+//Save the new notice in the database
+app.post('/notices', async (req,res) => {
+
+    const notice = new Notice(req.body.notices);
+    await notice.save();
+    res.redirect('/notices');
+})
+
+//Show a particular Notice
+app.get('/notices/:id', async (req,res)=>{
+    const { id } = req.params;
+    const notice = await Notice.findById(id);
+    res.render('notices/show', { notice });
+})
+
+//to show the edit form
+app.get('/notices/:id/edit', async (req,res) => {
+    const { id } = req.params;
+    const notice = await Notice.findById(id);
+    res.render('notices/edit', { notice });
+})
+
+//to save the edited details
+app.put('/notices/:id', async (req,res)=>{
+    const { id } = req.params;
+    const notice = await Notice.findByIdAndUpdate(id, {...req.body.notices});
+    res.redirect(`/notices/${notice._id}`);
+})
+
+//to delete the notice
+app.delete('/notices/:id', async (req,res) => {
+    const { id } = req.params;
+    await Notice.findByIdAndDelete(id);
+    res.redirect('/notices');
+})
 
 app.listen(3000,()=>{
     console.log('Listening to port 3000');

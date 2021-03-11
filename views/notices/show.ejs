@@ -4,22 +4,22 @@
             <div class="card mb-3">
                 
                 <div class="card-body">
-                    <h5 class="card-title"><%= event.title%></h5>
-                    <p class="card-text"><%= event.description%></p>
+                    <h5 class="card-title"><%= notice.title%></h5>
+                    <p class="card-text"><%= notice.description%></p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item text-muted"><%= event.issue_date%></li>
+                    <li class="list-group-item text-muted"><%= notice.issue_date%></li>
             
                 </ul>
                 <div class="card-body">
-                    <a class="card-link btn btn-info" href="/events/<%=event._id%>/edit">Edit</a>
-                    <form class="d-inline" action="/events/<%=event._id%>?_method=DELETE" method="POST">
+                    <a class="card-link btn btn-info" href="/notices/<%=notice._id%>/edit">Edit</a>
+                    <form class="d-inline" action="/notices/<%=notice._id%>?_method=DELETE" method="POST">
                         <button class="btn btn-danger">Delete</button>
                     </form>
                 </div>
                 
                 <div>
-                    <a class="btn btn-success ml-3 mb-3" href="/events">ALL EVENTS</a>
+                    <a class="btn btn-success ml-3 mb-3" href="/notices">ALL notice</a>
                 </div>
         </div>  
         </div>
