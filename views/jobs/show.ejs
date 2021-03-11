@@ -1,26 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JOB</title>
-</head>
-<body>
-    <h1><%= job.title %> </h1>
-    <ul>
-        <li>DESCRIPTION : <%= job.description %> </li>
-        <li>MARKS CRITERIA : <%= job.marks_criteria %> </li>
-    </ul>
-    <div>
-        <a href="/jobs/<%= job._id %>/edit">EDIT</a>
+<% layout('layouts/boilerplate')%>
+    <div class="row">
+        <div class="col-6">
+            <div class="card mb-3">
+                
+                <div class="card-body">
+                    <h5 class="card-title"><%= job.title%></h5>
+                    <p class="card-text"><%= job.description%></p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-muted"><%= job.marks_criteria%></li>
+            
+                </ul>
+                <div class="card-body">
+                    <a class="card-link btn btn-info" href="/jobs/<%=job._id%>/edit">Edit</a>
+                    <form class="d-inline" action="/jobs/<%=job._id%>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+                
+                <div>
+                    <a class="btn btn-success ml-3 mb-3" href="/jobs">ALL JOBS</a>
+                </div>
+        </div>  
+        </div>
     </div>
-    <hr>
-    <div>
-        <a href="/jobs">ALL JOBS</a>
-    </div>
-    <form action="/jobs/<%=job._id%>?_method=DELETE" method="post">
-        <button>DELETE</button>
-    </form>
-</body>
-</html>

@@ -5,7 +5,7 @@ const Job=require('./models/jobs');
 const Notice=require('./models/notices');
 const Event=require('./models/events');
 const path = require('path');
-
+const ejsMate = require('ejs-mate');
 
 const app=express();
 
@@ -26,13 +26,13 @@ app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'));
 app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
-
-
+app.engine('ejs', ejsMate);
 
 
 app.get('/',(req,res)=>{
     res.send("Hey look who made it!!!!")
 })
+
 
 //JOB ROUTES
 //Displays all the jobs

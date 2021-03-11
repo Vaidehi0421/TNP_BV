@@ -1,40 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit</title>
-</head>
-<body>
-    
-    <h1>Edit EVENT</h1>
-    <form action="/events/<%= event._id %>?_method=PUT" method="POST">
+<% layout('layouts/boilerplate')%>
+       
+
+<div class="row">
+    <h1 class="text-center">Edit Event</h1>
+    <div class="col-6 offset-3">
+        <form action="/events/<%=event._id%>?_method=PUT" method="POST" novalidate class="validated-form">
+            <div class="mb-3">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" type="text" id="title" name="events[title]"
+                    value="<%=event.title %>" required>                    
+            </div>
+            <div>
+                <label  class="form-label" for="description">Description</label>
+                <textarea class="form-control"  name="events[description]" id="description" required><%= event.description %></textarea>
+            </div>
+            <div>
+            <label class="form-label" for="issue_date">ISSUE DATE</label>
+            <input  class="form-control" type="date" id="issue_date" name="events[issue_date]" value="<%= event.issue_date %>">
+
+            </div>
+            <div>
+                <label class="form-label" for="expiry_date">EXPIRY DATE</label>
+                <input class="form-control" type="date" id="expiry_date" name="events[expiry_date]" value=<% JSON.stringify((event.expiry_date )).substring(0, 11) %>>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-info mt-3">UPDATE</button>
+            </div>
+        </form>
         <div>
-            <label for="title">Title</label>
-            <input type="text" id="title" name="events[title]" value="<%= event.title %>">
-        </div>
-        <div>
-            <label for="description">Description</label>
-            <textarea name="events[description]" id="description" required><%= event.description %></textarea>
-        </div>
-        <div>
-            <label for="issue_date">ISSUE DATE</label>
-            <input type="date" id="issue_date" name="events[issue_date]" value="<%= event.issue_date %>">
-        </div>
-        <div>
-            <label for="expiry_date">EXPIRY DATE</label>
-            <input type="date" id="expiry_date" name="events[expiry_date]" value="<%= event.expiry_date %>">
-        </div>
-        <button>Update Event</button>
-    </form>
-    <div>
-        <a href="/events/<%= event._id %>">GO BACK</a>
+        <form  class="d-inline" action="/events/<%= event._id %>" method="GET">
+            <button class="btn btn-info mb-2 d-inline">GO BACK</button>
+        </form>
+        <form  class="d-inline" action="/events/<%= event._id %>?_method=DELETE" method="post">
+            <button class="btn btn-danger mb-2 d-inline">DELETE</button>
+        </form>
     </div>
-
-    <form action="/events/<%= event._id %>?_method=DELETE" method="post">
-        <button>DELETE</button>
-    </form>
-
-</body>
-</html>
