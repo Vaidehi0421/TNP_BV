@@ -15,7 +15,7 @@
                 
                 <div>
                     <label class="form-label" for="marks_criteria">Criteria</label>
-                    <input class="form-control" type="text" id="marks_criteria" name="jobs[marks_criteria]" value="<%= job.marks_criteria %>">
+                    <input class="form-control" type="number" step="any" min=0 max=10 id="marks_criteria" name="jobs[marks_criteria]" value="<%= job.marks_criteria %>">
                 </div>
                 <div class="mb-3">
                     <button class="btn btn-info mt-3">UPDATE</button>

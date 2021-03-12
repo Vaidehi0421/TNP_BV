@@ -2,7 +2,7 @@
     <div class="row">
         <h1 class="text-center">Add a New Job</h1>
         <div class="col-6 offset-3">
-            <form action="/jobs" method="POST">
+            <form action="/jobs" novalidate method="POST" class="validated-form">
                 <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
                         <input type="text" id="title" name="jobs[title]"class="form-control" required>
@@ -13,14 +13,14 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="marks_criteria">Marks Criteria</label>
-                    <input class="form-control" type="text" id="marks_criteria" name="jobs[marks_criteria]">
+                    <input class="form-control" type="number" step="any" min="0" max="10" id="marks_criteria" name="jobs[marks_criteria]">
                 </div>
                 <div class="mb-3">
                     <button class="btn btn-success">Add Job</button>
                 </div>
             </form>
             <form action="/jobs">
-                <button class="btn btn-info">All Jobs</button>
+                <button class="btn btn-info mb-3">All Jobs</button>
             </form>
         </div>
     </div>

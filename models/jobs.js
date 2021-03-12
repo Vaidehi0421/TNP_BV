@@ -6,7 +6,9 @@ const JobSchema = new mongoose.Schema({
         required: true
     },
     marks_criteria: {
-        type: String
+        type: Number,
+        min: [0, 'Marks should be greater than zero'],
+        max: 10
     },
     description:{
         type: String,

@@ -2,10 +2,10 @@
 <div class="row">
     <h1 class="text-center">Add a New notice</h1>
     <div class="col-6 offset-3">
-        <form action="/notices" method="POST">
+        <form action="/notices" method="POST" novalidate class="validated-form">
             <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
-                    <input type="text" id="title" name="notices[title]"class="form-control" required>
+                    <input type="text" id="title" name="notices[title]"class="form-control" >
             </div>
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>

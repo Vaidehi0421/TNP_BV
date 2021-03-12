@@ -8,7 +8,7 @@
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
                 <input class="form-control" type="text" id="title" name="events[title]"
-                    value="<%=event.title %>" required>                    
+                    value="<%=event.title %>" >                    
             </div>
             <div>
                 <label  class="form-label" for="description">Description</label>
@@ -16,12 +16,12 @@
             </div>
             <div>
             <label class="form-label" for="issue_date">ISSUE DATE</label>
-            <input  class="form-control" type="date" id="issue_date" name="events[issue_date]" value="<%= idate %>">
+            <input  class="form-control" type="date" id="issue_date" name="events[issue_date]" value="<%= idate %>" required>
 
             </div>
             <div>
                 <label class="form-label" for="expiry_date">EXPIRY DATE</label>
-                <input class="form-control" type="date" id="expiry_date" name="events[expiry_date]" value=<%= edate  %>>
+                <input class="form-control" type="date" id="expiry_date" name="events[expiry_date]" value=<%= edate  %> required>
             </div>
             <div class="mb-3">
                 <button class="btn btn-info mt-3">UPDATE</button>
