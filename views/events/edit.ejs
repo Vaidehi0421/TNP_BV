@@ -1,6 +1,6 @@
 <% layout('layouts/boilerplate')%>
-       
-
+<%let edate=(JSON.stringify((event.expiry_date )).substring(1, 11))%>
+<%let idate=(JSON.stringify((event.issue_date )).substring(1, 11))%>
 <div class="row">
     <h1 class="text-center">Edit Event</h1>
     <div class="col-6 offset-3">
@@ -16,12 +16,12 @@
             </div>
             <div>
             <label class="form-label" for="issue_date">ISSUE DATE</label>
-            <input  class="form-control" type="date" id="issue_date" name="events[issue_date]" value="<%= event.issue_date %>">
+            <input  class="form-control" type="date" id="issue_date" name="events[issue_date]" value="<%= idate %>">
 
             </div>
             <div>
                 <label class="form-label" for="expiry_date">EXPIRY DATE</label>
-                <input class="form-control" type="date" id="expiry_date" name="events[expiry_date]" value=<% JSON.stringify((event.expiry_date )).substring(0, 11) %>>
+                <input class="form-control" type="date" id="expiry_date" name="events[expiry_date]" value=<%= edate  %>>
             </div>
             <div class="mb-3">
                 <button class="btn btn-info mt-3">UPDATE</button>
