@@ -10,9 +10,13 @@ const JobSchema = new mongoose.Schema({
         min: [0, 'Marks should be greater than zero'],
         max: 10
     },
-    description:{
+    job_description:{
         type: String,
         required: true
+    },
+    location:{
+        type:String,
+        required:true
     }
 
 })

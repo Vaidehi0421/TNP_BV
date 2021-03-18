@@ -46,8 +46,6 @@ const sessionConfig = {
 }
 app.use(session(sessionConfig))
 
-
-
 //home route
 app.get('/',(req,res)=>{
     res.render('home');
@@ -55,9 +53,18 @@ app.get('/',(req,res)=>{
 app.use("/jobs",JobRoutes);
 app.use('/events',EventRoutes);
 app.use('/notices',NoticeRoutes);
-
-
-
+app.get('/register/company', (req,res)=>{
+    res.render('users/Company_Registration')
+})
+app.get('/register/student', (req,res)=>{
+    res.render('users/Student_Registration')
+})
+app.get('/login', (req,res)=>{
+    res.render('users/login');
+})
+app.post('/', (req,res)=>{
+    res.redirect('/');
+})
 app.all('*',(req,res,next)=>{
     next(new ExpressError('PAGE NOT FOUND!',404));
 })

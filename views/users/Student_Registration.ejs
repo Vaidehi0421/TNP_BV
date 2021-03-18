@@ -1,0 +1,68 @@
+<% layout('layouts/boilerplate')%>
+<div class="row">
+    <h1 class="text-center">Register a Student</h1>
+    <div class="col-6 offset-3">
+        <form action="/login" method="POST" novalidate class="validated-form">
+            <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" id="name" name="student[name]"class="form-control" >
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" id="email" name="student[email]"class="form-control" >
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="password">Password</label>
+                <input  class="form-control" type="password" id="password" name="student[password]" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="smartcard_id">Smartcard ID</label>
+                <input class="form-control" name="student[smartcard_id]" id="smartcard_id" required></input>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="contact_number">Contact Number</label>
+                <input  class="form-control" type="text" id="contact_number" name="student[contact_number]" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="dob">Date of Birth</label>
+                <input  class="form-control" type="date" id="dob" name="student[dob]" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="cgpa">CGPA</label>
+                <input  class="form-control" type="number" step="any" min="0" id="cgpa" name="student[cgpa]" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="branch">Branch</label>
+                <select name="student[branch]" id="branch" required>
+                    <option value="CS">CS</option>
+                    <option value="IT">IT</option>
+                    <option value="EC">EC</option>
+                    <option value="CE">CE</option>
+                    <option value="EI">EI</option>
+                    <option value="EE">EE</option>
+                    <option value="MT">MT</option>
+                    <option value="BT">BT</option>
+                  </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="tenth_marks">Tenth marks</label>
+                <input  class="form-control" type="number" step="any" min="0" id="tenth_marks" name="student[tenth_marks]" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="twelfth_marks">Twelfth marks</label>
+                <input  class="form-control" type="number" step="any" min="0" id="twelfth_marks" name="student[twelfth_marks]" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="resume">Resume</label>
+                <input  class="form-control" type="text" id="resume" name="student[resume]" required>
+            </div>
+            <div class="mb-3 mt-3">
+                <button class="btn btn-success">Register</button>
+            </div>
+        </form>
+        <form action="/login">
+            <h6>Already a User?</h6>
+            <button class="btn btn-info mb-3">Log In</button>
+        </form>
+    </div>
+</div>

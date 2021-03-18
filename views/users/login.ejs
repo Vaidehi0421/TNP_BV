@@ -1,0 +1,21 @@
+<%-layout('/layouts/boilerplate')%> 
+    <div class="row">
+    <form action="/" method="POST">
+        <div class="col-6 offset-3">
+            <label for="email" class="form-label">Email</label>
+            <input class="form-control" type="email" name="email" id="email">
+        </div>
+        <div class="col-6 offset-3">
+            <label class="form-label" for="password">Password</label>
+            <input class="form-control" type="password" name="password" id="password">
+        </div>
+        <div class="col-6 offset-3 mt-3">
+        <button class="btn btn-success">Submit</button>
+        </div>
+    </form>
+    <div class="col-6 offset-3 mt-3">
+        <a href="/register/company">Register as Comapny</a>
+        <br>
+        <a href="/register/student">Register as Student</a>
+    </div>
+    </div>
