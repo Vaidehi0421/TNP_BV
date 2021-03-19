@@ -1,5 +1,5 @@
-const mongooose=require('mongoose');
-const Schema=mongooose.Schema;
+const mongoose=require('mongoose');
+const Schema=mongoose.Schema;
 
 const AdminSchema=new Schema({
    name:{

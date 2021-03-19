@@ -1,5 +1,5 @@
-const mongooose=require('mongoose');
-const Schema=mongooose.Schema;
+const mongoose=require('mongoose');
+const Schema=mongoose.Schema;
 
 const CompanySchema=new Schema({
     cname:{
@@ -10,7 +10,7 @@ const CompanySchema=new Schema({
         type:String,
         required:true
     },
-    email:{
+    username:{
         type:String,
         required:true,
         unique:true

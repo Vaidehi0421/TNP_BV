@@ -4,11 +4,19 @@ const mongoose=require('mongoose');
 const Job=require('./models/jobs');
 const Notice=require('./models/notices');
 const Event=require('./models/events');
+const User=require('./models/users');
+const Company=require('./models/companies');
+const Admin=require('./models/admins');
+const Student=require('./models/students');
 const path = require('path');
 const ejsMate = require('ejs-mate');
 const session = require('express-session');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
+
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+
 const app=express();
 const JobRoutes = require('./routes/job');
 const EventRoutes = require('./routes/event');
@@ -46,6 +54,46 @@ const sessionConfig = {
 }
 app.use(session(sessionConfig))
 
+//PASSPORT
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+//Register Company
+app.get('/register/company', (req,res)=>{
+    res.render('users/Company_Registration')
+})
+
+app.post('/register/company', async (req,res,next)=>{
+
+    console.log(req.body.company);
+    const { username , password } = req.body.company;
+    const user = new User({username});
+    console.log(user);
+    const registeredUser = await User.register(user, password);
+    console.log(registeredUser);
+    console.log(req.body);
+    res.redirect('/login');
+})
+
+
+
+app.get('/register/student', (req,res)=>{
+    res.render('users/Student_Registration')
+})
+app.get('/login', (req,res)=>{
+    res.render('users/login');
+})
+
+
+
+
+
+
+
 //home route
 app.get('/',(req,res)=>{
     res.render('home');
@@ -53,18 +101,10 @@ app.get('/',(req,res)=>{
 app.use("/jobs",JobRoutes);
 app.use('/events',EventRoutes);
 app.use('/notices',NoticeRoutes);
-app.get('/register/company', (req,res)=>{
-    res.render('users/Company_Registration')
-})
-app.get('/register/student', (req,res)=>{
-    res.render('users/Student_Registration')
-})
-app.get('/login', (req,res)=>{
-    res.render('users/login');
-})
-app.post('/', (req,res)=>{
+
+/*app.post('/', (req,res)=>{
     res.redirect('/');
-})
+})*/
 app.all('*',(req,res,next)=>{
     next(new ExpressError('PAGE NOT FOUND!',404));
 })
