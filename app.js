@@ -78,21 +78,16 @@ app.post('/register/company', async (req,res,next)=>{
     console.log(req.body);
     res.redirect('/login');
 })
-
-
-
+app.get('/companyuser',async(req,res)=>{
+    const user=await User.find({});
+    res.send(user);
+})
 app.get('/register/student', (req,res)=>{
     res.render('users/Student_Registration')
 })
 app.get('/login', (req,res)=>{
     res.render('users/login');
 })
-
-
-
-
-
-
 
 //home route
 app.get('/',(req,res)=>{
