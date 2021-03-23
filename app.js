@@ -79,15 +79,26 @@ app.post('/register/company', async (req, res, next) => {
     const registeredUser = await User.register(user, password);
     res.redirect('/login');
 })
-
+//Register as Student 
 app.get('/register/student', (req, res) => {
     res.render('users/Student_Registration')
+})
+
+app.post('/register/student', async (req, res, next) => {
+    const { username, password } = req.body.student;
+    const user_role = 'Student';
+    const user = new User({ user_role, username });
+    const student = new Student(req.body.student);
+    await student.save();
+    const registeredUser = await User.register(user, password);
+    res.redirect('/login');
+
 })
 app.get('/login', (req, res, next) => {
     res.render('users/login');
 })
 
-app.post('/login', catchAsync( async (req,res,next) => {
+app.post('/login', catchAsync(async (req, res, next) => {
     const username = req.body.username;
     const user = await User.findOne({ username })
     if (!user) {
@@ -95,7 +106,7 @@ app.post('/login', catchAsync( async (req,res,next) => {
     }
     else if (user.user_role === 'Company') {
         const company = await Company.findOne({ username });
-        if (company.verified === false) {
+        if (company.verified === true) {
             //a flash message here
             res.redirect('/login');
         }
@@ -103,7 +114,26 @@ app.post('/login', catchAsync( async (req,res,next) => {
             return next();
         }
     }
-}), passport.authenticate('local', {successRedirect:'/jobs', failureRedirect: '/login'}))
+    else if(user.user_role ==="Student")
+    {
+        const student = await Student.findOne({ username});
+        if(student.verified === true)
+        {
+            res.redirect('/login');
+        }
+        else{
+            return next();
+        }
+    }
+    else
+    {
+        return next();
+    }
+}), passport.authenticate('local', { failureRedirect: '/login' }),(req, res) => {
+    const redirectUrl = req.session.returnTo || '/jobs';
+    delete req.session.returnTo;
+    res.redirect(redirectUrl);
+})
 
 //home route
 app.get('/', (req, res) => {
