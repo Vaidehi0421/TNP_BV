@@ -16,7 +16,7 @@ const JobSchema = new mongoose.Schema({
     },
     location:{
         type:String,
-        required:true
+        //required:true
     }
 
 })
