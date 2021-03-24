@@ -14,6 +14,10 @@ const NoticeSchema=new Schema({
     expiry_date:{
         type:String,
         required:true
+    },
+    author:{
+        type:Schema.Types.ObjectId,
+        ref:'User'
     }
 });
 

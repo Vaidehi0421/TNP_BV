@@ -14,6 +14,10 @@ const EventSchema=new Schema({
     expiry_date : {
         type:Date,
         required : true
+    },
+    author:{
+        type:Schema.Types.ObjectId,
+        ref:'Admin'
     }
 })
 

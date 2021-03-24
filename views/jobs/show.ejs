@@ -5,21 +5,22 @@
                 
                 <div class="card-body">
                     <h5 class="card-title"><%= job.title%></h5>
-                    <p class="card-text"><%= job.description%></p>
+                    <p class="card-text"><%= job.job_description%></p>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item text-muted"><%= job.marks_criteria%></li>
             
                 </ul>
+                <%if(currentUser.user_role==='Company' && company._id.equals(job.author._id)) {%>
                 <div class="card-body">
                     <a class="card-link btn btn-info" href="/jobs/<%=job._id%>/edit">Edit</a>
                     <form class="d-inline" action="/jobs/<%=job._id%>?_method=DELETE" method="POST">
                         <button class="btn btn-danger">Delete</button>
                     </form>
                 </div>
-                
+                <%}%>
                 <div>
-                    <a class="btn btn-success ml-3 mb-3" href="/jobs">ALL JOBS</a>
+                    <a class="btn btn-success mt-3 ml-3 mb-3" href="/jobs">ALL JOBS</a>
                 </div>
         </div>  
         </div>

@@ -6,3 +6,11 @@ module.exports.isLoggedIn = (req, res, next) => {
     }
     next();
 }
+
+module.exports.isCompany= (req,res,next)=> {
+    if(req.user.user_role==='Company')
+    {
+        return next();
+    }
+    else throw new ExpressError("You don't have access to this page",404);
+}

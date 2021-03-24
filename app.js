@@ -53,15 +53,17 @@ const sessionConfig = {
     }
 }
 app.use(session(sessionConfig))
-
 //PASSPORT
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
-
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    next();
+})
 //Register Company
 app.get('/register/company', (req, res) => {
     res.render('users/Company_Registration')
@@ -114,27 +116,28 @@ app.post('/login', catchAsync(async (req, res, next) => {
             return next();
         }
     }
-    else if(user.user_role ==="Student")
-    {
-        const student = await Student.findOne({ username});
-        if(student.verified === true)
-        {
+    else if (user.user_role === "Student") {
+        const student = await Student.findOne({ username });
+        if (student.verified === true) {
             res.redirect('/login');
         }
-        else{
+        else {
             return next();
         }
     }
-    else
-    {
+    else {
         return next();
     }
-}), passport.authenticate('local', { failureRedirect: '/login' }),(req, res) => {
+}), passport.authenticate('local', { failureRedirect: '/login' }), (req, res) => {
     const redirectUrl = req.session.returnTo || '/jobs';
     delete req.session.returnTo;
     res.redirect(redirectUrl);
 })
 
+app.get('/logout',(req,res)=>{
+    req.logout();
+    res.redirect('/login');
+})
 //home route
 app.get('/', (req, res) => {
     res.render('home');

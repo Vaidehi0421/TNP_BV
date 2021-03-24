@@ -19,15 +19,7 @@ const AdminSchema=new Schema({
        type:String,
        enum:['Student','Company','Admin'],
        required:true
-   },
-   notice_id:[{
-       type:Schema.Types.ObjectId,
-       ref:'Notice'
-   }],
-   event_id:[{
-       type:Schema.Types.ObjectId,
-       ref:'Event'
-   }]
+   }
 });
 
 module.exports=mongoose.model('Admin',AdminSchema);

@@ -31,17 +31,7 @@ const CompanySchema=new Schema({
     verified:{
         type:Boolean,
         default:false
-    },
-    job_id:[
-        {
-        type:Schema.Types.ObjectId,
-        ref:'Job'
     }
-    ],
-    notice_id:[{
-        type:Schema.Types.ObjectId,
-        ref:'Notice'
-    }]
 });
 
 module.exports=mongoose.model('Company',CompanySchema);

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-
-const JobSchema = new mongoose.Schema({
+const Schema=mongoose.Schema;
+const JobSchema = new Schema({
     title: {
         type: String,
         required: true
@@ -17,8 +17,11 @@ const JobSchema = new mongoose.Schema({
     location:{
         type:String,
         //required:true
+    },
+    author:{
+        type:Schema.Types.ObjectId,
+        ref:'Company'
     }
-
 })
 
 module.exports = mongoose.model('Job',JobSchema);

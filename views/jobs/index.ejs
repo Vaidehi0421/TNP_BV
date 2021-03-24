@@ -1,15 +1,4 @@
 <% layout('layouts/boilerplate')%>
-   <!-- <h1>ALL JOBS</h1>
-    <ul>
-        <% for(let job of jobs ) { %>
-        <li><a href="jobs/<%= job._id %>"><%= job.title %></a></li>
-        <% } %> 
-    </ul>
-    <div>
-        <a href="jobs/new">ADD A NEW JOB</a>
-    </div>
--->
-
     <h1>All Jobs</h1>
     <% for(let job of jobs ) { %>
     <div class="card mb-3">
@@ -26,6 +15,8 @@
         </div>
     </div>
     <% }%>
+    <%if(currentUser.user_role==='Company') {%>
     <div > 
         <a class="btn btn-info mt-3 mb-3" href="jobs/new">ADD A NEW JOB</a>
     </div>
+    <%}%>
