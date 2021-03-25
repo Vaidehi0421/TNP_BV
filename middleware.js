@@ -24,3 +24,11 @@ module.exports.isAdmin= (req,res,next)=> {
     }
     else throw new ExpressError("You don't have access to this page",404);
 }
+
+module.exports.isComAd = (req,res,next) => {
+    if(req.user.user_role==='Admin' || req.user.user_role === 'Company')
+    {
+        return next();
+    }
+    else throw new ExpressError("You don't have access to this page",404);
+}
