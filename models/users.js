@@ -6,7 +6,7 @@ const UserSchema=new Schema({
     user_role: {
         type: String,
         default: 'Admin'
-    }
+    }   
 });
 
 UserSchema.plugin(passportLocalMongoose);

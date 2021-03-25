@@ -17,7 +17,7 @@ const CompanySchema=new Schema({
     },
     user_role:{
         type:String,
-        enum:['Student','Admin','Company'],
+        enum:['Student','Admin','Company','Manager'],
         required:true,
         default:'Company'
     },

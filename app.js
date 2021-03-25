@@ -96,6 +96,21 @@ app.post('/register/student', async (req, res, next) => {
     res.redirect('/login');
 
 })
+//Admin registration
+app.get('/register/admin', (req, res) => {
+    res.render('users/Admin_Registration')
+})
+
+app.post('/register/admin', async (req, res, next) => {
+    const { username, password } = req.body.admin;
+    const user_role = 'Admin';
+    const user = new User({ user_role, username });
+    const admin = new Admin(req.body.admin);
+    await admin.save();
+    const registeredUser = await User.register(user, password);
+    res.redirect('/login');
+})
+
 app.get('/login', (req, res, next) => {
     res.render('users/login');
 })
@@ -119,6 +134,15 @@ app.post('/login', catchAsync(async (req, res, next) => {
     else if (user.user_role === "Student") {
         const student = await Student.findOne({ username });
         if (student.verified === true) {
+            res.redirect('/login');
+        }
+        else {
+            return next();
+        }
+    }
+    else if (user.user_role === "Admin") {
+        const admin = await Admin.findOne({ username });
+        if (admin.verified === true) {
             res.redirect('/login');
         }
         else {

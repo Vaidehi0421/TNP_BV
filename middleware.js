@@ -1,3 +1,5 @@
+const ExpressError=require("./utils/ExpressError");
+
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
         req.session.returnTo = req.originalUrl
@@ -9,6 +11,14 @@ module.exports.isLoggedIn = (req, res, next) => {
 
 module.exports.isCompany= (req,res,next)=> {
     if(req.user.user_role==='Company')
+    {
+        return next();
+    }
+    else throw new ExpressError("You don't have access to this page",404);
+}
+
+module.exports.isAdmin= (req,res,next)=> {
+    if(req.user.user_role==='Admin')
     {
         return next();
     }
