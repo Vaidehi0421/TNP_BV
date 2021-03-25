@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Job = require('./models/jobs');
 const Notice = require('./models/notices');
 const Event = require('./models/events');
+
 const User = require('./models/users');
 const Company = require('./models/companies');
 const Admin = require('./models/admins');
@@ -64,6 +65,7 @@ app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     next();
 })
+
 //Register Company
 app.get('/register/company', (req, res) => {
     res.render('users/Company_Registration')
@@ -166,9 +168,42 @@ app.get('/logout',(req,res)=>{
 app.get('/', (req, res) => {
     res.render('home');
 })
+//View a Student 
+app.get('/students/:id',async(req,res,next)=>{
+    const { id }=req.params;
+    const student = await Student.findById(id);
+    res.render('students/show',{student});
+})
+
+// View All students 
+app.get('/students',async (req, res, next) => {
+    const students=await Student.find({});
+    res.render('students/allstudent',{students});
+})
+
+//to show the edit form of student 
+app.get('/students/:id/edit',catchAsync(async (req,res,next) => {
+   
+    const { id } = req.params;
+    const student = await Student.findById(id);
+    res.render('students/edit', { student });
+   
+}))
+
+//to save the edited details of studets 
+app.put('/students/:id', catchAsync(async (req,res,next)=>{
+    
+    const { id } = req.params;
+    const student = await Student.findByIdAndUpdate(id, {...req.body.students});
+    res.redirect(`/students/${student._id}`);   
+}))
 app.use("/jobs", JobRoutes);
 app.use('/events', EventRoutes);
 app.use('/notices', NoticeRoutes);
+
+
+
+
 
 /*app.post('/', (req,res)=>{
     res.redirect('/');

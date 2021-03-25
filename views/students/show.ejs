@@ -1,0 +1,28 @@
+<% layout('layouts/boilerplate')%>
+    <div class="row">
+        <div class="col-8">
+            <div class="card mb-3">                
+                <div class="card-body">
+                    <h5 class="card-title"><%= student.name%></h5>
+                    <p class="card-text"><%= student.branch%></p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-muted">CGPA: <%= student.cgpa%></li>
+                    <li class="list-group-item text-muted">12th: <%= student.twelfth_marks%></li>
+                    <li class="list-group-item text-muted">10th: <%= student.tenth_marks%></li>
+                </ul>
+                
+                
+                <div>
+                    <a class="btn btn-success mt-3 ml-3 mb-3" href="/students">All Students</a>
+                </div>
+                
+               
+                    <div class="card-body">
+                        <a class="card-link btn btn-info" href="/students/<%=student._id%>/edit">Edit</a>
+                        
+                    </div>
+                
+        </div>  
+        </div>
+    </div>

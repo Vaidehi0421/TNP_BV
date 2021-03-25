@@ -1,0 +1,39 @@
+<% layout('layouts/boilerplate')%>
+
+<table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+      <tr>
+          <th scope="col">SNo.</th>
+        <th scope="col">Name</th>
+        <th scope="col">Smartcard_id</th>
+        <th scope="col">Active_backlog</th> 
+        <th scope="col">CGPA</th>
+        <th scope="col">Branch</th>
+        <th scope="col">Tenth Marks</th>
+        <th scope="col">Twelfth Marks</th> 
+      </tr>
+    </thead>
+
+    <tbody>
+        <%let i=1;%>
+        <% for(let student of students )  {%>
+            <% if(student.verified === false && student.placed===false){  %>
+        
+      <tr>
+        <th scope="row"><%= i++%></th>
+        <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.name%></a></td>
+        <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.smartcard_id%></a></td>
+
+        <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.active_backlog%></a></td> 
+        <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.cgpa%></a></td>
+        <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.branch%></a></td>
+        <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.tenth_marks%></a></td>
+        <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.twelfth_marks%></a></td> 
+      </tr>
+    
+      <%} }%>
+  
+    </tbody>
+  </table>
+  
+  
