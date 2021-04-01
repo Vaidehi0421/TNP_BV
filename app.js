@@ -160,7 +160,22 @@ app.post('/login', catchAsync(async (req, res, next) => {
     delete req.session.returnTo;
     res.redirect(redirectUrl);
 })
-
+app.get('/myprofile',isLoggedIn,async(req,res)=>{
+    const username = req.user.username;
+    const user = await User.findOne({ username })
+    if (user.user_role === 'Company') {
+        const company = await Company.findOne({ username });
+        res.redirect(`/companies/${company._id}`);
+    }
+    else if (user.user_role === "Student") {
+        const student = await Student.findOne({ username });
+        res.redirect(`/students/${student._id}`);
+    }
+    else{
+        const admin = await Admin.findOne({ username });
+        res.redirect(`/admins/${admin._id}`);
+    }
+})
 app.get('/logout',(req,res)=>{
     req.logout();
     res.redirect('/login');
@@ -170,41 +185,43 @@ app.get('/', (req, res) => {
     res.render('home');
 })
 //View a Student 
-app.get('/students/:id',async(req,res,next)=>{
+app.get('/students/:id',isLoggedIn,catchAsync(async(req,res,next)=>{
     const { id }=req.params;
-    const student = await Student.findById(id);
+    const student = await Student.findById(id); //viewing this student's details
     res.render('students/show',{student});
-})
+}))
 
 // View All students 
-app.get('/students',isLoggedIn, isComAd, async (req, res, next) => {
+app.get('/students',isLoggedIn, isComAd, catchAsync(async (req, res, next) => {
     const students=await Student.find({});
     res.render('students/allstudent',{students});
-})
+}))
 
 //to show the edit form of student 
-/*app.get('/students/:id/edit',catchAsync(async (req,res,next) => {
-   
+app.get('/students/:id/edit',isLoggedIn,catchAsync(async (req,res,next) => {
+    console.log(req.params);
     const { id } = req.params;
     const student = await Student.findById(id);
-    res.render('students/edit', { student });
-   
-}))*/
+    if(req.user.username===student.username)
+        res.render('students/edit', { student });
+    else
+        throw new ExpressError("You are not allowed to access this page",401);
+}))
 
 //to save the edited details of studets 
-app.put('/students/:id', catchAsync(async (req,res,next)=>{
-    
+app.put('/students/:id',isLoggedIn, catchAsync(async (req,res,next)=>{
     const { id } = req.params;
-    const student = await Student.findByIdAndUpdate(id, {...req.body.students});
-    res.redirect(`/students/${student._id}`);   
+    let student=await Student.findById(id);
+    if(req.user.username===student.username){
+        student = await Student.findByIdAndUpdate(id, {...req.body.students});
+        res.redirect(`/students/${student._id}`);  
+    }
+    else
+        throw new ExpressError("You are not allowed to access this page",401);
 }))
 app.use("/jobs", JobRoutes);
 app.use('/events', EventRoutes);
 app.use('/notices', NoticeRoutes);
-
-
-
-
 
 /*app.post('/', (req,res)=>{
     res.redirect('/');
