@@ -22,6 +22,7 @@ const app = express();
 const JobRoutes = require('./routes/job');
 const EventRoutes = require('./routes/event');
 const NoticeRoutes = require('./routes/notice');
+const { isLoggedIn, isComAd } = require('./middleware');
 mongoose.connect('mongodb://localhost:27017/placementhub', {
     useNewUrlParser: true,
     useCreateIndex: true,
@@ -176,19 +177,19 @@ app.get('/students/:id',async(req,res,next)=>{
 })
 
 // View All students 
-app.get('/students',async (req, res, next) => {
+app.get('/students',isLoggedIn, isComAd, async (req, res, next) => {
     const students=await Student.find({});
     res.render('students/allstudent',{students});
 })
 
 //to show the edit form of student 
-app.get('/students/:id/edit',catchAsync(async (req,res,next) => {
+/*app.get('/students/:id/edit',catchAsync(async (req,res,next) => {
    
     const { id } = req.params;
     const student = await Student.findById(id);
     res.render('students/edit', { student });
    
-}))
+}))*/
 
 //to save the edited details of studets 
 app.put('/students/:id', catchAsync(async (req,res,next)=>{
