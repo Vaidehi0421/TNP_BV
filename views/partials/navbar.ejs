@@ -7,14 +7,19 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
+                <% if(currentUser) {%>
                 <a class="nav-link" href="/jobs">Jobs</a>
                 <a class="nav-link" href="/events">Events</a>
                 <a class="nav-link" href="/notices">Notices</a>
+                <% } %> 
                 <% if(currentUser && (currentUser.user_role != 'Student')) { %>
                     <a class="nav-link" href="/students">All Students</a>
                 <% } %> 
                 <% if(currentUser && (currentUser.user_role === 'Admin' || currentUser.user_role === 'Manager')) { %>
                     <a class="nav-link" href="/companies">All Companies</a>
+                <% } %>
+                <% if(currentUser && (currentUser.user_role === 'Manager')) { %>
+                    <a class="nav-link" href="/admins">All Admins</a>
                 <% } %>
             </div>
             <div class="navbar-nav ml-auto">

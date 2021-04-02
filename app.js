@@ -24,6 +24,7 @@ const EventRoutes = require('./routes/event');
 const NoticeRoutes = require('./routes/notice');
 const StudentRoutes = require('./routes/student');
 const CompanyRoutes = require('./routes/company');
+const AdminRoutes =require('./routes/admin');
 const { isLoggedIn, isComAd, isAdmin } = require('./middleware');
 mongoose.connect('mongodb://localhost:27017/placementhub', {
     useNewUrlParser: true,
@@ -128,7 +129,7 @@ app.post('/login', catchAsync(async (req, res, next) => {
     }
     else if (user.user_role === 'Company') {
         const company = await Company.findOne({ username });
-        if (company.verified === true) {
+        if (company.verified === false) {
             //a flash message here
             res.redirect('/login');
         }
@@ -147,7 +148,7 @@ app.post('/login', catchAsync(async (req, res, next) => {
     }
     else if (user.user_role === "Admin") {
         const admin = await Admin.findOne({ username });
-        if (admin.verified === true) {
+        if (admin.verified === false) {
             res.redirect('/login');
         }
         else {
@@ -194,6 +195,7 @@ app.use('/events', EventRoutes);
 app.use('/notices', NoticeRoutes);
 app.use('/students', StudentRoutes);
 app.use('/companies', CompanyRoutes);
+app.use('/admins', AdminRoutes);
 /*app.post('/', (req,res)=>{
     res.redirect('/');
 })*/

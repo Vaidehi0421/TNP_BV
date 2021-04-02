@@ -33,4 +33,39 @@ module.exports.isComAd = (req,res,next) => {
     else throw new ExpressError("You don't have access to this page",404);
 }
 
+module.exports.isVerified= (req,res,next)=> {
+    const username = req.user.username;
+    if (req.user.user_role === 'Company') {
+        const company = await Company.findOne({ username });
+        if (company.verified === true) {
+         return next();
+        }
+        else {
+            throw new ExpressError("You don't have access to this page",401); 
+        }
+    }
+    else if (user.user_role === "Student") {
+        const student = await Student.findOne({ username });
+        if (student.verified === true) {
+           return next();
+        }
+        else {
+            throw new ExpressError("You don't have access to this page",401);
+        }
+    }
+    else if (user.user_role === "Admin") {
+        const admin = await Admin.findOne({ username });
+        if (admin.verified === true) {
+            return next();
+        }
+        else {
+            throw new ExpressError("You don't have access to this page",401);
+        }
+    }
+    else if(user.user_role === 'Manager') {
+        return next();
+    }
+}
+
+
  

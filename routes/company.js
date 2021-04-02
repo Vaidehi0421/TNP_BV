@@ -41,6 +41,8 @@ router.put('/:id',isLoggedIn, catchAsync(async (req,res,next)=>{
     const { id } = req.params;
     let company=await Company.findById(id);
     if(req.user.username===company.username){
+        company.verified = false;
+        await Company.findByIdAndUpdate(id, company);
         company = await Company.findByIdAndUpdate(id, {...req.body.companies});
         res.redirect(`/companies/${company._id}`);  
     }

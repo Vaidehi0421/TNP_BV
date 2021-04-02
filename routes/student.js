@@ -43,6 +43,8 @@ router.put('/:id',isLoggedIn, catchAsync(async (req,res,next)=>{
     const { id } = req.params;
     let student=await Student.findById(id);
     if(req.user.username===student.username){
+        student.verified = false;
+        await Student.findByIdAndUpdate(id, student);
         student = await Student.findByIdAndUpdate(id, {...req.body.students});
         res.redirect(`/students/${student._id}`);  
     }
