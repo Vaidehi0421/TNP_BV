@@ -1,0 +1,34 @@
+<% layout('layouts/boilerplate')%>
+        <div class="row">
+            <h1 class="text-center">Edit Your Profile</h1>
+            <div class="col-6 offset-3">
+                <form action="/companies/<%=company._id%>?_method=PUT" method="POST" novalidate class="validated-form">
+                    <div class="mb-3">
+                        <label class="form-label" for="name">Name</label>
+                        <input class="form-control" type="text" id="title" name="companies[name]"
+                            value="<%=company.name %> ">
+                    </div>
+                    <div>
+                        <label class="form-label" for="cname">Company's Name</label>
+                        <input class="form-control" type="text" id="title" name="companies[cname]"
+                        value="<%=company.cname %> ">
+                    </div>
+                    <div>
+                        <label class="form-label" for="contact_number">Contact Number</label>
+                        <input class="form-control" type="text" id="contact_number" name="companies[contact_number]"
+                            value=<%=company.contact_number %> >
+                    </div>
+                    <div>
+                        <label class="form-label" for="company_description">Company's Description</label>
+                        <textarea class="form-control"  name="companies[company_description]" id="description" required><%= company.company_description %></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-info mt-3">UPDATE</button>
+                    </div>
+                </form>
+                <div>
+                    <form class="d-inline" action="/companies/<%= company._id %>" method="GET">
+                        <button class="btn btn-info mb-2 d-inline">GO BACK</button>
+                    </form>
+                    
+                </div>

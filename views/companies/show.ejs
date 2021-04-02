@@ -1,0 +1,30 @@
+<% layout('layouts/boilerplate')%>
+    <div class="row">
+        <div class="col-8">
+            <div class="card mb-3">                
+                <div class="card-body">
+                    <h5 class="card-title"><%= company.cname%></h5>
+                    <p class="card-text"><%= company.name%></p>
+                    <p class="card-text"><%= company.company_description%></p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-muted">Contact Number: <%= company.contact_number%></li>
+                    <li class="list-group-item text-muted">Email: <%= company.username%></li>
+                </ul>
+                <div>
+                    <% if((currentUser.user_role==='Admin'|| currentUser.user_role==='Manager') && company.verified === false){ %>
+                    <a class="btn btn-success mt-3 ml-3 mb-3" href="/companies/<%=company._id%>/verify">Verify</a>
+                    <%}%>
+                </div> 
+
+                <div>
+                    <%if(currentUser.user_role!='Company' && currentUser.user_role!=='Student') { %>
+                    <a class="btn btn-success mt-3 ml-3 mb-3" href="/companies">All companies</a>
+                    <%}%>
+                    <% if(currentUser.user_role==='Company' && company.username===currentUser.username){ %>
+                    <a class="btn btn-success mt-3 ml-3 mb-3" href="/companies/<%=company._id%>/edit">Edit</a>
+                    <%}%>
+                </div> 
+        </div>  
+    </div>
+</div>

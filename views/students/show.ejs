@@ -13,7 +13,7 @@
                 </ul>
 
                 <div>
-                    <% if(currentUser.user_role==='Admin' && student.verified === false){ %>
+                    <% if((currentUser.user_role==='Admin'|| currentUser.user_role==='Manager') && student.verified === false){ %>
                     <a class="btn btn-success mt-3 ml-3 mb-3" href="/students/<%=student._id%>/verify">Verify</a>
                     <%}%>
                 </div> 

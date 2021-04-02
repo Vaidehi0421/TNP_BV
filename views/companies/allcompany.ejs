@@ -1,0 +1,28 @@
+<% layout('layouts/boilerplate')%>
+
+<table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">SNo.</th>
+        <th scope="col">Name</th>
+        <th scope="col">Company's Name</th> 
+        <th scope="col">Contact Number</th>
+        <th scope="col">Verified</th>
+      </tr>
+    </thead>
+
+    <tbody>
+        <%let i=1;%>
+        <% for(let company of companies )  {%>
+      <tr>
+        <th scope="row"><%= i++%></th>
+        <td scope="col"><a style="text-decoration: none;" href="/companies/<%= company._id %> "><%= company.name%></a></td>
+        <td scope="col"><a style="text-decoration: none;" href="/companies/<%= company._id %> "><%= company.cname%></a></td>
+        <td scope="col"><a style="text-decoration: none;" href="/companies/<%= company._id %> "><%= company.contact_number%></a></td> 
+        <td scope="col"><a style="text-decoration: none;" href="/companies/<%= company._id %> "><%= company.verified%></a></td>
+      </tr>
+      <%}%>
+    </tbody>
+  </table>
+  
+  

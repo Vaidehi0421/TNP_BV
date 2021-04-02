@@ -16,7 +16,7 @@
 
     <tbody>
         <%let i=1;%>
-        <% if(currentUser.user_role!='Admin') { %>
+        <% if(currentUser.user_role!='Admin' && currentUser.user_role!='Manager' ) { %>
         <% for(let student of students )  {%>
             <% if(student.verified === true && student.placed===false){  %>
         
