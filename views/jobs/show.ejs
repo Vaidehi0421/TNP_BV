@@ -9,7 +9,7 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item text-muted"><%= job.marks_criteria%></li>
                 </ul>
-                <%if(currentUser.user_role==='Company' && company._id.equals(job.author._id)) {%>
+                <%if((currentUser.user_role==='Company' && company._id.equals(job.author._id)) || currentUser.user_role==="Manager") {%>
                 <div class="card-body">
                     <a class="card-link btn btn-info" href="/jobs/<%=job._id%>/edit">Edit</a>
                     <form class="d-inline" action="/jobs/<%=job._id%>?_method=DELETE" method="POST">

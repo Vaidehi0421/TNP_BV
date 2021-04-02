@@ -11,7 +11,7 @@
                     <li class="list-group-item text-muted"><%= notice.issue_date%></li>
             
                 </ul>
-                <% if((currentUser._id.equals(notice.author))||(currentUser.user_role === 'Admin')){%> 
+                <% if((currentUser.user_role === 'Manager') || (currentUser._id.equals(notice.author))||(currentUser.user_role === 'Admin')){%> 
                 <div class="card-body">
                     <a class="card-link btn btn-info" href="/notices/<%=notice._id%>/edit">Edit</a>
                     <form class="d-inline" action="/notices/<%=notice._id%>?_method=DELETE" method="POST">

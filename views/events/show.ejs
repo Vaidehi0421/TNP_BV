@@ -9,7 +9,7 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item text-muted"><%= event.issue_date%></li>
                 </ul>
-                <%  if(currentUser.user_role==="Admin") { %>
+                <%  if(currentUser.user_role==="Admin" || currentUser.user_role==="Manager") { %>
                 <div class="card-body">
                     <a class="card-link btn btn-info" href="/events/<%=event._id%>/edit">Edit</a>
                     <form class="d-inline" action="/events/<%=event._id%>?_method=DELETE" method="POST">

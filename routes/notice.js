@@ -14,12 +14,16 @@ router.get('/',isLoggedIn, catchAsync(async (req,res,next)=>{
 
 //Displays the form to add a new notice
 router.get('/new',isLoggedIn, isComAd, (req,res) => {
+    if(req.user.user_role === "Manager")
+        throw new ExpressError("You are not allowed to access this page" , 401);
     res.render('notices/new');
 })
 
 
 //Save the new notice in the database
 router.post('/', isLoggedIn,isComAd, catchAsync(async (req,res,next) => {
+    if(req.user.user_role === "Manager")
+        throw new ExpressError("You are not allowed to access this page" , 401);
         const notice = new Notice(req.body.notices);
         notice.author = req.user._id;
         await notice.save();
@@ -37,7 +41,7 @@ router.get('/:id',isLoggedIn, catchAsync(async (req,res,next)=>{
 router.get('/:id/edit', isLoggedIn, isComAd, catchAsync(async (req,res,next) => {
     const { id } = req.params;
     const notice = await Notice.findById(id);
-    if((req.user._id.equals(notice.author)) || (req.user.user_role === 'Admin'))
+    if((req.user.user_role === 'Manager') || (req.user._id.equals(notice.author)) || (req.user.user_role === 'Admin'))
     res.render('notices/edit', { notice });
     else
     throw new ExpressError("You are not not allowed access this page",401);
@@ -47,7 +51,7 @@ router.get('/:id/edit', isLoggedIn, isComAd, catchAsync(async (req,res,next) => 
 router.put('/:id',isLoggedIn, isComAd, catchAsync(async (req,res,next)=>{
     const { id } = req.params;
     const notice = await Notice.findById(id);
-    if((req.user._id.equals(notice.author)) || (req.user.user_role === 'Admin'))
+    if((req.user.user_role === 'Manager') || (req.user._id.equals(notice.author)) || (req.user.user_role === 'Admin'))
     {
         const noti = await Notice.findByIdAndUpdate(id, {...req.body.notices});
         res.redirect(`/notices/${notice._id}`);
@@ -60,7 +64,7 @@ router.put('/:id',isLoggedIn, isComAd, catchAsync(async (req,res,next)=>{
 router.delete('/:id', catchAsync(async (req,res,next) => {
     const { id } = req.params;
     const notice = await Notice.findById(id);
-    if((req.user._id.equals(notice.author)) || (req.user.user_role === 'Admin'))
+    if((req.user.user_role === 'Manager') || (req.user._id.equals(notice.author)) || (req.user.user_role === 'Admin'))
     {
         await Notice.findByIdAndDelete(id);
         res.redirect('/notices');

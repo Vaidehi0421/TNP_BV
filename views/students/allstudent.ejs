@@ -16,8 +16,9 @@
 
     <tbody>
         <%let i=1;%>
+        <% if(currentUser.user_role!='Admin') { %>
         <% for(let student of students )  {%>
-            <% if(student.verified === false && student.placed===false){  %>
+            <% if(student.verified === true && student.placed===false){  %>
         
       <tr>
         <th scope="row"><%= i++%></th>
@@ -31,7 +32,24 @@
         <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.twelfth_marks%></a></td> 
       </tr>
     
-      <%} }%>
+      <%} } } else {%>
+      
+        
+        <% for(let student of students )  {%>
+        
+      <tr>
+        <th scope="row"><%= i++%></th>
+        <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.name%></a></td>
+        <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.smartcard_id%></a></td>
+
+        <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.active_backlog%></a></td> 
+        <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.cgpa%></a></td>
+        <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.branch%></a></td>
+        <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.tenth_marks%></a></td>
+        <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.twelfth_marks%></a></td> 
+      </tr>
+    
+      <%} } %>
   
     </tbody>
   </table>

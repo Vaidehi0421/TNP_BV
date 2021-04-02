@@ -10,7 +10,7 @@ module.exports.isLoggedIn = (req, res, next) => {
 }
 
 module.exports.isCompany= (req,res,next)=> {
-    if(req.user.user_role==='Company')
+    if(req.user.user_role==='Company' || req.user.user_role === 'Manager')
     {
         return next();
     }
@@ -18,7 +18,7 @@ module.exports.isCompany= (req,res,next)=> {
 }
 
 module.exports.isAdmin= (req,res,next)=> {
-    if(req.user.user_role==='Admin')
+    if(req.user.user_role==='Admin' || req.user.user_role === 'Manager')
     {
         return next();
     }
@@ -26,9 +26,11 @@ module.exports.isAdmin= (req,res,next)=> {
 }
 
 module.exports.isComAd = (req,res,next) => {
-    if(req.user.user_role==='Admin' || req.user.user_role === 'Company')
+    if(req.user.user_role==='Admin' || req.user.user_role === 'Company' || req.user.user_role === 'Manager' )
     {
         return next();
     }
     else throw new ExpressError("You don't have access to this page",404);
 }
+
+ 

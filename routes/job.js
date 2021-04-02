@@ -11,6 +11,8 @@ router.get('/',isLoggedIn, catchAsync(async (req,res,next)=>{
 }))
 //Displays the form to add a new job
 router.get('/new',isLoggedIn,isCompany, (req,res) => {
+    if(req.user.user_role === 'Manager')
+        throw new ExpressError("You are not allowed to access this page", 401);
     res.render('jobs/new');
 })
 
@@ -26,6 +28,8 @@ router.get('/:id',isLoggedIn, catchAsync(async (req,res,next)=>{
 
 //Save the new job in the database
 router.post('/', isLoggedIn,isCompany,catchAsync(async (req,res,next) => {
+    if(req.user.user_role === 'Manager')
+        throw new ExpressError("You are not not allowed access this page",401);
     const company=await Company.findOne({username:req.user.username})
     const job = new Job(req.body.jobs);
     job.author=company._id;
@@ -38,10 +42,10 @@ router.get('/:id/edit',isLoggedIn,isCompany, catchAsync(async (req,res,next) => 
     const company=await Company.findOne({username:req.user.username})
     const { id } = req.params;
     const job = await Job.findById(id).populate('author');
-    if(company._id.equals(job.author._id))
-    res.render('jobs/edit', { job });
+    if((req.user.user_role === 'Manager') || (company._id.equals(job.author._id)))
+        res.render('jobs/edit', { job });
     else
-    throw new ExpressError("You are not not allowed access this page",401);
+        throw new ExpressError("You are not not allowed access this page",401);
 }))
 
 //to save the edited details
@@ -49,7 +53,7 @@ router.put('/:id',isLoggedIn,isCompany, catchAsync(async (req,res,next)=>{
     const company=await Company.findOne({username:req.user.username})
     const { id } = req.params;
     const job = await Job.findById(id).populate('author');
-    if(company._id.equals(job.author._id))
+    if((req.user.user_role === 'Manager') || (company._id.equals(job.author._id)))
     {
         const jo = await Job.findByIdAndUpdate(id, {...req.body.jobs});
         res.redirect(`/jobs/${job._id}`);
@@ -63,7 +67,7 @@ router.delete('/:id',isCompany, catchAsync(async (req,res,next) => {
     const company=await Company.findOne({username:req.user.username})
     const { id } = req.params;
     const job = await Job.findById(id).populate('author');
-    if(company._id.equals(job.author._id))
+    if((req.user.user_role === 'Manager') || (company._id.equals(job.author._id)))
     {await Job.findByIdAndDelete(id);
     res.redirect('/jobs');
     }

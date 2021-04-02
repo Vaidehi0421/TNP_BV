@@ -15,11 +15,15 @@ router.get('/', isLoggedIn, catchAsync(async (req,res,next)=>{
 
 //Displays the form to add a new event
 router.get('/new', isLoggedIn, isAdmin ,(req,res) => {
+    if(req.user.user_role === 'Manager')
+        throw new ExpressError("You are not allowed to access this page", 401);
     res.render('events/new');
 })
 
 //Save the new event in the database
 router.post('/', isLoggedIn,isAdmin,catchAsync(async (req,res,next) => {
+    if(req.user.user_role === 'Manager')
+        throw new ExpressError("You are not allowed to access this page", 401);
     const admin=await Admin.findOne({username:req.user.username})
     const event = new Event(req.body.events);
     event.author=admin._id;
@@ -39,7 +43,7 @@ router.get('/:id/edit', isLoggedIn,isAdmin,catchAsync(async (req,res,next) => {
     const admin=await Admin.findOne({username:req.user.username})
     const { id } = req.params;
     const event = await Event.findById(id).populate('author');
-    if(admin._id.equals(event.author._id))
+    if(req.user.user_role === "Manager" || admin._id.equals(event.author._id))
         res.render('events/edit', { event });
     else
         throw new ExpressError("You are not not allowed access this page",401);
@@ -50,7 +54,7 @@ router.put('/:id',isLoggedIn,isAdmin, catchAsync(async (req,res,next)=>{
     const admin=await Admin.findOne({username:req.user.username})
     const { id } = req.params;
     const event = await Event.findById(id).populate('author');
-    if(admin._id.equals(event.author._id))
+    if(req.user.user_role === "Manager" || admin._id.equals(event.author._id))
     {
         const eve = await Event.findByIdAndUpdate(id, {...req.body.events});
         res.redirect(`/events/${event._id}`);
@@ -64,7 +68,7 @@ router.delete('/:id',isLoggedIn,isAdmin,catchAsync(async (req,res,next) => {
     const admin=await Admin.findOne({username:req.user.username})
     const { id } = req.params;
     const event = await Event.findById(id).populate('author');
-    if(admin._id.equals(event.author._id))
+    if(req.user.user_role === "Manager" ||admin._id.equals(event.author._id))
     {   
         await Event.findByIdAndDelete(id);
         res.redirect('/events');

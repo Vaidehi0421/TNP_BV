@@ -22,7 +22,9 @@ const app = express();
 const JobRoutes = require('./routes/job');
 const EventRoutes = require('./routes/event');
 const NoticeRoutes = require('./routes/notice');
-const { isLoggedIn, isComAd } = require('./middleware');
+const StudentRoutes = require('./routes/student');
+const CompanyRoutes = require('./routes/company');
+const { isLoggedIn, isComAd, isAdmin } = require('./middleware');
 mongoose.connect('mongodb://localhost:27017/placementhub', {
     useNewUrlParser: true,
     useCreateIndex: true,
@@ -136,7 +138,7 @@ app.post('/login', catchAsync(async (req, res, next) => {
     }
     else if (user.user_role === "Student") {
         const student = await Student.findOne({ username });
-        if (student.verified === true) {
+        if (student.verified === false) {
             res.redirect('/login');
         }
         else {
@@ -152,7 +154,7 @@ app.post('/login', catchAsync(async (req, res, next) => {
             return next();
         }
     }
-    else {
+    else if(user.user_role === 'Manager') {
         return next();
     }
 }), passport.authenticate('local', { failureRedirect: '/login' }), (req, res) => {
@@ -160,6 +162,8 @@ app.post('/login', catchAsync(async (req, res, next) => {
     delete req.session.returnTo;
     res.redirect(redirectUrl);
 })
+
+//viewing the profile of the user
 app.get('/myprofile',isLoggedIn,async(req,res)=>{
     const username = req.user.username;
     const user = await User.findOne({ username })
@@ -184,45 +188,12 @@ app.get('/logout',(req,res)=>{
 app.get('/', (req, res) => {
     res.render('home');
 })
-//View a Student 
-app.get('/students/:id',isLoggedIn,catchAsync(async(req,res,next)=>{
-    const { id }=req.params;
-    const student = await Student.findById(id); //viewing this student's details
-    res.render('students/show',{student});
-}))
 
-// View All students 
-app.get('/students',isLoggedIn, isComAd, catchAsync(async (req, res, next) => {
-    const students=await Student.find({});
-    res.render('students/allstudent',{students});
-}))
-
-//to show the edit form of student 
-app.get('/students/:id/edit',isLoggedIn,catchAsync(async (req,res,next) => {
-    console.log(req.params);
-    const { id } = req.params;
-    const student = await Student.findById(id);
-    if(req.user.username===student.username)
-        res.render('students/edit', { student });
-    else
-        throw new ExpressError("You are not allowed to access this page",401);
-}))
-
-//to save the edited details of studets 
-app.put('/students/:id',isLoggedIn, catchAsync(async (req,res,next)=>{
-    const { id } = req.params;
-    let student=await Student.findById(id);
-    if(req.user.username===student.username){
-        student = await Student.findByIdAndUpdate(id, {...req.body.students});
-        res.redirect(`/students/${student._id}`);  
-    }
-    else
-        throw new ExpressError("You are not allowed to access this page",401);
-}))
 app.use("/jobs", JobRoutes);
 app.use('/events', EventRoutes);
 app.use('/notices', NoticeRoutes);
-
+app.use('/students', StudentRoutes);
+app.use('/companies', CompanyRoutes);
 /*app.post('/', (req,res)=>{
     res.redirect('/');
 })*/
