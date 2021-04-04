@@ -3,7 +3,7 @@ const router = express.Router({ mergeParams: true });
 const catchAsync = require("../utils/catchAsync");
 const Admin = require("../models/admins");
 
-const { isLoggedIn ,isComAd , isCompany , isAdmin} = require('../middleware');
+const { isLoggedIn ,isComAd , isCompany ,isVerified, isAdmin} = require('../middleware');
 const ExpressError = require('../utils/ExpressError');
 //View  Admin
 router.get('/', isLoggedIn, catchAsync(async(req,res,next) => {
@@ -16,14 +16,14 @@ else{
 }
 }))
 //view admin profile 
-router.get('/:id',isLoggedIn,catchAsync(async(req,res,next)=>{
+router.get('/:id',isLoggedIn,isAdmin,catchAsync(async(req,res,next)=>{
     const { id }=req.params;
     const admin = await Admin.findById(id);
     res.render('admins/show',{admin});
 }))
 
 //to verify a admin
-router.get('/:id/verify', isLoggedIn, catchAsync(async(req,res,next) => {
+router.get('/:id/verify', isLoggedIn, isVerified, catchAsync(async(req,res,next) => {
     if(req.user.user_role==='Manager'){
     const { id } = req.params;
     const admin = await Admin.findById(id);
@@ -36,7 +36,7 @@ router.get('/:id/verify', isLoggedIn, catchAsync(async(req,res,next) => {
 }))
 
 //to show the edit form of Admin
-router.get('/:id/edit',isLoggedIn,catchAsync(async (req,res,next) => {
+router.get('/:id/edit',isLoggedIn, isAdmin, catchAsync(async (req,res,next) => {
     const { id } = req.params;
     const admin = await Admin.findById(id);
     if(req.user.username===admin.username)
@@ -47,7 +47,7 @@ router.get('/:id/edit',isLoggedIn,catchAsync(async (req,res,next) => {
 }))
 
 //to save the edited details of admins 
-router.put('/:id',isLoggedIn, catchAsync(async (req,res,next)=>{
+router.put('/:id',isLoggedIn,isAdmin, catchAsync(async (req,res,next)=>{
     const { id } = req.params;
     let admin=await Admin.findById(id);
     if(req.user.username===admin.username){

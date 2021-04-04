@@ -121,45 +121,8 @@ app.get('/login', (req, res, next) => {
     res.render('users/login');
 })
 
-app.post('/login', catchAsync(async (req, res, next) => {
-    const username = req.body.username;
-    const user = await User.findOne({ username })
-    if (!user) {
-        return next();
-    }
-    else if (user.user_role === 'Company') {
-        const company = await Company.findOne({ username });
-        if (company.verified === false) {
-            //a flash message here
-            res.redirect('/login');
-        }
-        else {
-            return next();
-        }
-    }
-    else if (user.user_role === "Student") {
-        const student = await Student.findOne({ username });
-        if (student.verified === false) {
-            res.redirect('/login');
-        }
-        else {
-            return next();
-        }
-    }
-    else if (user.user_role === "Admin") {
-        const admin = await Admin.findOne({ username });
-        if (admin.verified === false) {
-            res.redirect('/login');
-        }
-        else {
-            return next();
-        }
-    }
-    else if(user.user_role === 'Manager') {
-        return next();
-    }
-}), passport.authenticate('local', { failureRedirect: '/login' }), (req, res) => {
-    const redirectUrl = req.session.returnTo || '/jobs';
+app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), (req, res) => {
+    const redirectUrl = req.session.returnTo || '/myprofile';
     delete req.session.returnTo;
     res.redirect(redirectUrl);
 })

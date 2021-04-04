@@ -2,23 +2,23 @@ const express=require('express');
 const router = express.Router({ mergeParams: true });
 const catchAsync = require("../utils/catchAsync");
 const Company = require("../models/companies");
-const { isLoggedIn ,isComAd , isCompany , isAdmin} = require('../middleware');
+const { isLoggedIn ,isComAd , isCompany , isAdmin, isVerified} = require('../middleware');
 const ExpressError = require('../utils/ExpressError');
 
 //View a Company
-router.get('/', isLoggedIn, isAdmin, catchAsync(async(req,res,next) => {
+router.get('/', isLoggedIn, isAdmin, isVerified, catchAsync(async(req,res,next) => {
     const companies=await Company.find({});
     res.render('companies/allcompany',{companies});
 }))
 
-router.get('/:id',isLoggedIn,catchAsync(async(req,res,next)=>{
+router.get('/:id',isLoggedIn,isComAd,catchAsync(async(req,res,next)=>{
     const { id }=req.params;
     const company = await Company.findById(id);
     res.render('companies/show',{company});
 }))
 
 //to verify a company
-router.get('/:id/verify', isLoggedIn, isAdmin, catchAsync(async(req,res,next) => {
+router.get('/:id/verify', isLoggedIn, isAdmin, isVerified, catchAsync(async(req,res,next) => {
     const { id } = req.params;
     const company = await Company.findById(id);
     company.verified = true;
@@ -27,7 +27,7 @@ router.get('/:id/verify', isLoggedIn, isAdmin, catchAsync(async(req,res,next) =>
 }))
 
 //to show the edit form of company 
-router.get('/:id/edit',isLoggedIn,catchAsync(async (req,res,next) => {
+router.get('/:id/edit',isLoggedIn, catchAsync(async (req,res,next) => {
     const { id } = req.params;
     const company = await Company.findById(id);
     if(req.user.username===company.username)

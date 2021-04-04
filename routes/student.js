@@ -2,7 +2,7 @@ const express=require('express');
 const router = express.Router({ mergeParams: true });
 const catchAsync = require("../utils/catchAsync");
 const Student = require("../models/students");
-const { isLoggedIn ,isComAd , isAdmin } = require('../middleware');
+const { isLoggedIn ,isComAd , isAdmin, isVerified } = require('../middleware');
 const ExpressError = require('../utils/ExpressError');
 
 //View a Student 
@@ -13,13 +13,13 @@ router.get('/:id',isLoggedIn,catchAsync(async(req,res,next)=>{
 }))
 
 // View All students 
-router.get('/',isLoggedIn, isComAd, catchAsync(async (req, res, next) => {
+router.get('/',isLoggedIn, isComAd, isVerified, catchAsync(async (req, res, next) => {
     const students=await Student.find({});
     res.render('students/allstudent',{students});
 }))
 
 //to show the edit form of student 
-router.get('/:id/edit',isLoggedIn,catchAsync(async (req,res,next) => {
+router.get('/:id/edit',isLoggedIn, catchAsync(async (req,res,next) => {
     console.log(req.params);
     const { id } = req.params;
     const student = await Student.findById(id);
@@ -30,7 +30,7 @@ router.get('/:id/edit',isLoggedIn,catchAsync(async (req,res,next) => {
 }))
 
 //to verify a student
-router.get('/:id/verify', isLoggedIn, isAdmin, catchAsync(async(req,res,next) => {
+router.get('/:id/verify', isLoggedIn, isAdmin, isVerified, catchAsync(async(req,res,next) => {
     const { id } = req.params;
     const student = await Student.findById(id);
     student.verified = true;

@@ -1,5 +1,7 @@
 <% layout('layouts/boilerplate')%>
     <%let edate=(JSON.stringify((student.dob )).substring(1, 11))%>
+        <% if(student.verified === false) { %> 
+
         <div class="row">
             <h1 class="text-center">Edit Your Profile</h1>
             <div class="col-6 offset-3">
@@ -71,3 +73,80 @@
                     </form>
                     
                 </div>
+            
+            
+            <%} else { %>
+                
+        <div class="row">
+            <h1 class="text-center">Edit Your Profile</h1>
+            <div class="col-6 offset-3">
+                <form action="/students/<%=student._id%>?_method=PUT" method="POST" novalidate class="validated-form">
+                    <div class="mb-3">
+                        <label class="form-label" for="name">Name</label>
+                        <input class="form-control" type="text" id="title" name="students[name]"
+                             value="<%=student.name %> ">
+                    </div>
+                    <div>
+                        <label class="form-label" for="smartcard_id">Smartcard ID</label>
+                        <input class="form-control" type="text" id="title" name="students[smartcard_id]"
+                        value="<%=student.smartcard_id %> " readonly>
+                    </div>
+                    <div>
+                        <label class="form-label" for="placed">Placed</label>
+                        <input class="form-control" type="text" id="placed" name="students[placed]"
+                            value=<%=student.placed %> readonly >
+
+                    </div>
+                    <div>
+                        <label class="form-label" for="dob">Date of Birth</label>
+                        <input class="form-control" type="date" id="dob" name="students[dob]" value=<%=edate %>
+                        readonly>
+                    </div>
+                    <div>
+                        <label class="form-label" for="contact_number">Contact Number</label>
+                        <input class="form-control" type="text" id="contact_number" name="students[contact_number]"
+                            value=<%=student.contact_number %> readonly>
+
+                    </div>
+                    <div>
+                        <label class="form-label" for="cgpa">CGPA</label>
+                        <input class="form-control" type="text" id="cgpa" name="students[cgpa]" value=<%=student.cgpa %>
+                        >
+
+                    </div>
+                    <div>
+                        <label class="form-label" for="branch">Branch</label>
+                        <input class="form-control" type="text" id="branch" name="students[branch]"
+                            value=<%=student.branch %> readonly>
+
+                    </div>
+                    <div>
+                        <label class="form-label" for="tenth_marks">10th Marks</label>
+                        <input class="form-control" type="text" id="tenth_marks" name="students[tenth_marks]"
+                            value=<%=student.tenth_marks %> readonly >
+
+                    </div>
+                    <div>
+                        <label class="form-label" for="twelfth_marks">12th Marks</label>
+                        <input class="form-control" type="text" id="twelfth_marks" name="students[twelfth_marks]"
+                            value=<%=student.twelfth_marks %> readonly>
+
+                    </div>
+                    <div>
+                        <label class="form-label" for="resume">Resume</label>
+                        <input class="form-control" type="text" id="resume" name="students[resume]"
+                            value=<%=student.resume %> >
+
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-info mt-3">UPDATE</button>
+                    </div>
+                </form>
+                <div>
+                    <form class="d-inline" action="/students/<%= student._id %>" method="GET">
+                        <button class="btn btn-info mb-2 d-inline">GO BACK</button>
+                    </form>
+                    
+                </div>
+                <% } %> 
+                

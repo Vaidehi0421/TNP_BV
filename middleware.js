@@ -1,5 +1,8 @@
-const ExpressError=require("./utils/ExpressError");
-
+const ExpressError = require("./utils/ExpressError");
+const Student  = require('./models/students');
+const Company = require('./models/companies');
+const Admin = require('./models/admins');
+const Manager = require('./models/manager');
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
         req.session.returnTo = req.originalUrl
@@ -33,7 +36,7 @@ module.exports.isComAd = (req,res,next) => {
     else throw new ExpressError("You don't have access to this page",404);
 }
 
-module.exports.isVerified= (req,res,next)=> {
+module.exports.isVerified= async (req,res,next)=> {
     const username = req.user.username;
     if (req.user.user_role === 'Company') {
         const company = await Company.findOne({ username });
@@ -44,7 +47,7 @@ module.exports.isVerified= (req,res,next)=> {
             throw new ExpressError("You don't have access to this page",401); 
         }
     }
-    else if (user.user_role === "Student") {
+    else if (req.user.user_role === "Student") {
         const student = await Student.findOne({ username });
         if (student.verified === true) {
            return next();
@@ -53,7 +56,7 @@ module.exports.isVerified= (req,res,next)=> {
             throw new ExpressError("You don't have access to this page",401);
         }
     }
-    else if (user.user_role === "Admin") {
+    else if (req.user.user_role === "Admin") {
         const admin = await Admin.findOne({ username });
         if (admin.verified === true) {
             return next();
@@ -62,7 +65,7 @@ module.exports.isVerified= (req,res,next)=> {
             throw new ExpressError("You don't have access to this page",401);
         }
     }
-    else if(user.user_role === 'Manager') {
+    else if(req.user.user_role === 'Manager') {
         return next();
     }
 }

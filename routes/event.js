@@ -2,26 +2,26 @@ const express=require('express');
 const router = express.Router({ mergeParams: true });
 const catchAsync = require("../utils/catchAsync");
 const Event = require("../models/events");
-const { isLoggedIn, isAdmin } = require('../middleware');
+const { isLoggedIn, isAdmin, isVerified } = require('../middleware');
 const Admin=require("../models/admins");
 const ExpressError=require('../utils/ExpressError');
 
 //EVENT ROUTES
 //Displays all the events
-router.get('/', isLoggedIn, catchAsync(async (req,res,next)=>{
+router.get('/', isLoggedIn, isVerified, catchAsync(async (req,res,next)=>{
     const events = await Event.find({});
     res.render('events/index', { events });
 }))
 
 //Displays the form to add a new event
-router.get('/new', isLoggedIn, isAdmin ,(req,res) => {
+router.get('/new', isLoggedIn, isAdmin , isVerified, (req,res) => {
     if(req.user.user_role === 'Manager')
         throw new ExpressError("You are not allowed to access this page", 401);
     res.render('events/new');
 })
 
 //Save the new event in the database
-router.post('/', isLoggedIn,isAdmin,catchAsync(async (req,res,next) => {
+router.post('/', isLoggedIn,isAdmin,isVerified,catchAsync(async (req,res,next) => {
     if(req.user.user_role === 'Manager')
         throw new ExpressError("You are not allowed to access this page", 401);
     const admin=await Admin.findOne({username:req.user.username})
@@ -32,14 +32,14 @@ router.post('/', isLoggedIn,isAdmin,catchAsync(async (req,res,next) => {
 }))
 
 //Show a particular Event
-router.get('/:id', isLoggedIn,catchAsync(async (req,res,next)=>{
+router.get('/:id', isLoggedIn,isVerified, catchAsync(async (req,res,next)=>{
     const { id } = req.params;
     const event = await Event.findById(id);
     res.render('events/show', { event });
 }))
 
 //to show the edit form
-router.get('/:id/edit', isLoggedIn,isAdmin,catchAsync(async (req,res,next) => {
+router.get('/:id/edit', isLoggedIn,isAdmin, isVerified, catchAsync(async (req,res,next) => {
     const admin=await Admin.findOne({username:req.user.username})
     const { id } = req.params;
     const event = await Event.findById(id).populate('author');
@@ -50,7 +50,7 @@ router.get('/:id/edit', isLoggedIn,isAdmin,catchAsync(async (req,res,next) => {
 }))
 
 //to save the edited details
-router.put('/:id',isLoggedIn,isAdmin, catchAsync(async (req,res,next)=>{
+router.put('/:id',isLoggedIn,isAdmin, isVerified, catchAsync(async (req,res,next)=>{
     const admin=await Admin.findOne({username:req.user.username})
     const { id } = req.params;
     const event = await Event.findById(id).populate('author');
@@ -64,7 +64,7 @@ router.put('/:id',isLoggedIn,isAdmin, catchAsync(async (req,res,next)=>{
 }))
 
 //to delete the event
-router.delete('/:id',isLoggedIn,isAdmin,catchAsync(async (req,res,next) => {
+router.delete('/:id',isLoggedIn,isAdmin,isVerified,catchAsync(async (req,res,next) => {
     const admin=await Admin.findOne({username:req.user.username})
     const { id } = req.params;
     const event = await Event.findById(id).populate('author');
