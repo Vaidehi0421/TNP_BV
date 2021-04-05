@@ -17,7 +17,7 @@ module.exports.isCompany= (req,res,next)=> {
     {
         return next();
     }
-    else throw new ExpressError("You don't have access to this page",404);
+    else throw new ExpressError("You can't access the page",404);
 }
 
 module.exports.isAdmin= (req,res,next)=> {
@@ -25,7 +25,7 @@ module.exports.isAdmin= (req,res,next)=> {
     {
         return next();
     }
-    else throw new ExpressError("You don't have access to this page",404);
+    else throw new ExpressError("You can't access the page",404);
 }
 
 module.exports.isComAd = (req,res,next) => {
@@ -33,18 +33,19 @@ module.exports.isComAd = (req,res,next) => {
     {
         return next();
     }
-    else throw new ExpressError("You don't have access to this page",404);
+    else throw new ExpressError("You can't access the page",404);
 }
 
 module.exports.isVerified= async (req,res,next)=> {
-    const username = req.user.username;
+    try{
+        const username = req.user.username;
     if (req.user.user_role === 'Company') {
         const company = await Company.findOne({ username });
         if (company.verified === true) {
          return next();
         }
         else {
-            throw new ExpressError("You don't have access to this page",401); 
+            throw new ExpressError("You can't access the page until you are verified",401); 
         }
     }
     else if (req.user.user_role === "Student") {
@@ -53,7 +54,7 @@ module.exports.isVerified= async (req,res,next)=> {
            return next();
         }
         else {
-            throw new ExpressError("You don't have access to this page",401);
+            throw new ExpressError("You can't access the page until you are verified",401);
         }
     }
     else if (req.user.user_role === "Admin") {
@@ -62,11 +63,15 @@ module.exports.isVerified= async (req,res,next)=> {
             return next();
         }
         else {
-            throw new ExpressError("You don't have access to this page",401);
+            throw new ExpressError("You can't access the page until you are verified",401);
         }
     }
     else if(req.user.user_role === 'Manager') {
         return next();
+    }
+    }
+    catch(err){
+        res.render('error.ejs',{err});
     }
 }
 

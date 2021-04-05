@@ -139,9 +139,13 @@ app.get('/myprofile',isLoggedIn,async(req,res)=>{
         const student = await Student.findOne({ username });
         res.redirect(`/students/${student._id}`);
     }
-    else{
+    else if(user.user_role === "Admin"){
         const admin = await Admin.findOne({ username });
         res.redirect(`/admins/${admin._id}`);
+    }
+    else
+    {
+        res.redirect('/jobs');
     }
 })
 app.get('/logout',(req,res)=>{

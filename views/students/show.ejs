@@ -19,7 +19,10 @@
                 </div> 
 
                 <div>
+                    
+                    <% if(currentUser.user_role!='Student'){ %>
                     <a class="btn btn-success mt-3 ml-3 mb-3" href="/students">All Students</a>
+                    <%}%>
                     <% if(currentUser.user_role==='Student' && student.username===currentUser.username){ %>
                     <a class="btn btn-success mt-3 ml-3 mb-3" href="/students/<%=student._id%>/edit">Edit</a>
                     <%}%>

@@ -1,6 +1,7 @@
 <% layout('layouts/boilerplate')%>
         <div class="row">
             <h1 class="text-center">Edit Your Profile</h1>
+            <% if(admin.verified === false) { %> 
             <div class="col-6 offset-3">
                 <form action="/admins/<%=admin._id%>?_method=PUT" method="POST" novalidate class="validated-form">
                     <div class="mb-3">
@@ -19,9 +20,28 @@
                         <button class="btn btn-info mt-3">UPDATE</button>
                     </div>
                 </form>
+                <%} else { %>
+                    <div class="col-6 offset-3">
+                        <form action="/admins/<%=admin._id%>?_method=PUT" method="POST" novalidate class="validated-form">
+                            <div class="mb-3">
+                                <label class="form-label" for="name">Name</label>
+                                <input class="form-control" type="text" id="title" name="admins[name]"
+                                    value="<%=admin.name %> " readonly>
+                            </div>
+                           
+                            <div>
+                                <label class="form-label" for="contact_number">Contact Number</label>
+                                <input class="form-control" type="text" id="contact_number" name="admins[contact_number]"
+                                    value=<%=admin.contact_number %> >
+                            </div>
+        
+                            <div class="mb-3">
+                                <button class="btn btn-info mt-3">UPDATE</button>
+                            </div>
+                        </form>
+                    <% } %> 
                 <div>
                     <form class="d-inline" action="/admins/<%= admin._id %>" method="GET">
                         <button class="btn btn-info mb-2 d-inline">GO BACK</button>
                     </form>
-                    
                 </div>
