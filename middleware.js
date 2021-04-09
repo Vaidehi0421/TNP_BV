@@ -6,7 +6,9 @@ const Manager = require('./models/manager');
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
         req.session.returnTo = req.originalUrl
-       // req.flash('error', 'You must be signed in first!');
+        
+            req.flash('error', 'You must login first!');
+           
         return res.redirect('/login');
     }
     next();
@@ -17,7 +19,10 @@ module.exports.isCompany= (req,res,next)=> {
     {
         return next();
     }
-    else throw new ExpressError("You can't access the page",404);
+    else{
+        req.flash('error', 'You are not allowed to access this page');
+        res.redirect('/');
+    }
 }
 
 module.exports.isAdmin= (req,res,next)=> {
@@ -25,7 +30,10 @@ module.exports.isAdmin= (req,res,next)=> {
     {
         return next();
     }
-    else throw new ExpressError("You can't access the page",404);
+   else{
+        req.flash('error', 'You are not allowed to access this page');
+        res.redirect('/');
+    }
 }
 
 module.exports.isComAd = (req,res,next) => {
@@ -33,7 +41,11 @@ module.exports.isComAd = (req,res,next) => {
     {
         return next();
     }
-    else throw new ExpressError("You can't access the page",404);
+   else{
+        req.flash('error', 'You are not allowed to access this page');
+       
+        res.redirect('/');
+    }
 }
 
 module.exports.isVerified= async (req,res,next)=> {
@@ -44,8 +56,10 @@ module.exports.isVerified= async (req,res,next)=> {
         if (company.verified === true) {
          return next();
         }
-        else {
-            throw new ExpressError("You can't access the page until you are verified",401); 
+        else{
+            req.flash('error', 'You are not verified yet!');
+           
+            res.redirect('/');
         }
     }
     else if (req.user.user_role === "Student") {
@@ -53,8 +67,10 @@ module.exports.isVerified= async (req,res,next)=> {
         if (student.verified === true) {
            return next();
         }
-        else {
-            throw new ExpressError("You can't access the page until you are verified",401);
+        else{
+            req.flash('error', 'You are not verified yet!');
+           
+            res.redirect('/');
         }
     }
     else if (req.user.user_role === "Admin") {
@@ -62,8 +78,9 @@ module.exports.isVerified= async (req,res,next)=> {
         if (admin.verified === true) {
             return next();
         }
-        else {
-            throw new ExpressError("You can't access the page until you are verified",401);
+        else{
+            req.flash('error', 'You are not verified yet!');
+           res.redirect('/');
         }
     }
     else if(req.user.user_role === 'Manager') {

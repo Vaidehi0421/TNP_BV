@@ -12,6 +12,7 @@ const Student = require('./models/students');
 const path = require('path');
 const ejsMate = require('ejs-mate');
 const session = require('express-session');
+const flash = require('connect-flash');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 
@@ -58,6 +59,14 @@ const sessionConfig = {
     }
 }
 app.use(session(sessionConfig))
+app.use(flash());
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
+
+
 //PASSPORT
 app.use(passport.initialize());
 app.use(passport.session());
@@ -124,6 +133,7 @@ app.get('/login', (req, res, next) => {
 app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), (req, res) => {
     const redirectUrl = req.session.returnTo || '/myprofile';
     delete req.session.returnTo;
+  req.flash('success',' Successfully Loged In')
     res.redirect(redirectUrl);
 })
 
@@ -150,6 +160,8 @@ app.get('/myprofile',isLoggedIn,async(req,res)=>{
 })
 app.get('/logout',(req,res)=>{
     req.logout();
+    req.flash('success','Loged Out!!');
+
     res.redirect('/login');
 })
 //home route

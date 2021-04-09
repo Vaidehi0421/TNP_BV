@@ -33,7 +33,8 @@ router.get('/:id/edit',isLoggedIn, catchAsync(async (req,res,next) => {
     if(req.user.username===company.username)
         res.render('companies/edit', { company });
     else
-        throw new ExpressError("You are not allowed to access this page",401);
+    { req.flash('error', 'You are not allowed to access this page');
+    res.redirect('/');}
 }))
 
 //to save the edited details of companies 
@@ -44,10 +45,13 @@ router.put('/:id',isLoggedIn, catchAsync(async (req,res,next)=>{
         company.verified = false;
         await Company.findByIdAndUpdate(id, company);
         company = await Company.findByIdAndUpdate(id, {...req.body.companies});
+         req.flash('success', 'Successfully Updated!');
+    
         res.redirect(`/companies/${company._id}`);  
     }
     else
-        throw new ExpressError("You are not allowed to access this page",401);
+    { req.flash('error', 'You are not allowed to access this page');
+    res.redirect('/');}
 }))
 
 module.exports=router;
