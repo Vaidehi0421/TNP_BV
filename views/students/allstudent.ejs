@@ -10,7 +10,8 @@
         <th scope="col">CGPA</th>
         <th scope="col">Branch</th>
         <th scope="col">Tenth Marks</th>
-        <th scope="col">Twelfth Marks</th> 
+        <th scope="col">Twelfth Marks</th>
+        <th scope="col">Resume</th> 
       </tr>
     </thead>
 
@@ -30,6 +31,7 @@
         <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.branch%></a></td>
         <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.tenth_marks%></a></td>
         <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.twelfth_marks%></a></td> 
+        <td scope="col"><a href=<%= student.resume.url %> target="_blank" rel="noopener noreferrer"> click here!</a></td> 
       </tr>
     
       <%} } } else {%>
@@ -46,7 +48,8 @@
         <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.cgpa%></a></td>
         <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.branch%></a></td>
         <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.tenth_marks%></a></td>
-        <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.twelfth_marks%></a></td> 
+        <td scope="col"><a style="text-decoration: none;" href="/students/<%= student._id %> "><%= student.twelfth_marks%></a></td>
+        <td scope="col"><a href=<%= student.resume.url %> target="_blank" rel="noopener noreferrer"> click here!</a></td> 
       </tr>
     
       <%} } %>

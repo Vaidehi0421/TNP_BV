@@ -106,15 +106,16 @@ app.get('/register/student',(req, res) => {
 })
 
 app.post('/register/student', upload.single('resume'), async (req, res, next) => {
-    console.log(req.body,req.file);
-    /*const { username, password } = req.body.student;
+    //console.log(req.body,req.file);
+    const { username, password } = req.body.student;
     const user_role = 'Student';
     const user = new User({ user_role, username });
     const student = new Student(req.body.student);
+    student.resume = { url: req.file.path, filename: req.file.filename}
     await student.save();
+    console.log(student);
     const registeredUser = await User.register(user, password);
     res.redirect('/login');
-    */
 })
 //Admin registration
 app.get('/register/admin', (req, res) => {

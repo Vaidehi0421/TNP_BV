@@ -59,7 +59,8 @@ const StudentSchema=new Schema({
         required:true
     },
     resume:{
-        type:String
+        url:String,
+        filename: String
     }
 });
 
