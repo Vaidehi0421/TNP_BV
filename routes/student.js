@@ -26,7 +26,8 @@ router.get('/:id/edit',isLoggedIn, catchAsync(async (req,res,next) => {
     if(req.user.username===student.username)
         res.render('students/edit', { student });
     else
-        throw new ExpressError("You are not allowed to access this page",401);
+    { req.flash('error', 'You are not allowed to access this page');
+    res.redirect('/');}
 }))
 
 //to verify a student
@@ -46,10 +47,13 @@ router.put('/:id',isLoggedIn, catchAsync(async (req,res,next)=>{
         student.verified = false;
         await Student.findByIdAndUpdate(id, student);
         student = await Student.findByIdAndUpdate(id, {...req.body.students});
+          req.flash('success','Updated');
+        
         res.redirect(`/students/${student._id}`);  
     }
     else
-        throw new ExpressError("You are not allowed to access this page",401);
+    { req.flash('error', 'You are not allowed to access this page');
+    res.redirect('/');}
 }))
 
 module.exports = router;

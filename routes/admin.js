@@ -12,7 +12,8 @@ if(req.user.user_role==='Manager'){
     res.render('admins/alladmin',{admins});
 }
 else{
-    throw new ExpressError("You are not allowed to access this page",401);
+     req.flash('error', 'You are not allowed to access this page');
+        res.redirect('/');
 }
 }))
 //view admin profile 
@@ -31,8 +32,9 @@ router.get('/:id/verify', isLoggedIn, isVerified, catchAsync(async(req,res,next)
     await Admin.findByIdAndUpdate(id, admin);
     res.redirect(`/admins/${admin._id}`);
     }
-    else
-    throw new ExpressError("You are not allowed to access this page",401);
+    else{
+     req.flash('error', 'You are not allowed to access this page');
+        res.redirect('/');}
 }))
 
 //to show the edit form of Admin
@@ -42,8 +44,9 @@ router.get('/:id/edit',isLoggedIn, isAdmin, catchAsync(async (req,res,next) => {
     if(req.user.username===admin.username)
     
         res.render('admins/edit', {admin });
-    else
-        throw new ExpressError("You are not allowed to access this page",401);
+    else{
+         req.flash('error', 'You are not allowed to access this page');
+        res.redirect('/');}
 }))
 
 //to save the edited details of admins 
@@ -54,11 +57,12 @@ router.put('/:id',isLoggedIn,isAdmin, catchAsync(async (req,res,next)=>{
         admin.verified = false;
         await Admin.findByIdAndUpdate(id, admin);
         admin = await Admin.findByIdAndUpdate(id, {...req.body.admins});
-        
+        req.flash('success', 'Successfully updated ');
         res.redirect(`/admins/${admin._id}`);  
     }
     else
-        throw new ExpressError("You are not allowed to access this page",401);
+        { req.flash('error', 'You are not allowed to access this page');
+        res.redirect('/');}
 }))
 
 

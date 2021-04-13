@@ -13,7 +13,10 @@ router.get('/',isLoggedIn, isVerified,catchAsync(async (req,res,next)=>{
 //Displays the form to add a new job
 router.get('/new',isLoggedIn,isCompany, isVerified, (req,res) => {
     if(req.user.user_role === 'Manager')
-        throw new ExpressError("You are not allowed to access this page", 401);
+    {
+    req.flash('error', 'You are not allowed to access this page!');
+    res.redirect('/jobs');
+    }
     res.render('jobs/new');
 })
 
@@ -29,24 +32,31 @@ router.get('/:id',isLoggedIn, isVerified, catchAsync(async (req,res,next)=>{
 
 //Save the new job in the database
 router.post('/', isLoggedIn,isCompany,isVerified,catchAsync(async (req,res,next) => {
-    if(req.user.user_role === 'Manager')
-        throw new ExpressError("You are not not allowed access this page",401);
+    if(req.user.user_role === 'Manager'){
+    req.flash('error', 'You are not allowed to access this page');
+    res.redirect('/jobs');
+}
     const company=await Company.findOne({username:req.user.username})
     const job = new Job(req.body.jobs);
     job.author=company._id;
     await job.save();
+    req.flash('success', 'Successfully added new job!');
     res.redirect('/jobs');
 }))
 
 //to show the edit form
 router.get('/:id/edit',isLoggedIn,isCompany,isVerified, catchAsync(async (req,res,next) => {
+   
     const company=await Company.findOne({username:req.user.username})
     const { id } = req.params;
     const job = await Job.findById(id).populate('author');
     if((req.user.user_role === 'Manager') || (company._id.equals(job.author._id)))
         res.render('jobs/edit', { job });
     else
-        throw new ExpressError("You are not not allowed access this page",401);
+    {
+        req.flash('error', 'You are not allowed to access this page');
+        res.redirect('/jobs');
+    }
 }))
 
 //to save the edited details
@@ -60,7 +70,10 @@ router.put('/:id',isLoggedIn,isCompany,isVerified, catchAsync(async (req,res,nex
         res.redirect(`/jobs/${job._id}`);
     }
     else
-    throw new ExpressError("You are not not allowed access this page",401);
+    {
+        req.flash('error', 'You are not allowed to access this page');
+        res.redirect('/jobs');
+    }
 }))
 
 //to delete the job
@@ -73,7 +86,10 @@ router.delete('/:id',isCompany,isVerified, catchAsync(async (req,res,next) => {
     res.redirect('/jobs');
     }
     else
-    throw new ExpressError("You are not not allowed access this page",401);
+    {
+        req.flash('error', 'You are not allowed to access this page');
+        res.redirect('/jobs');
+    }
 }))
 
 module.exports = router; 

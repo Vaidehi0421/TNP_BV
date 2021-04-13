@@ -15,7 +15,8 @@ router.get('/',isLoggedIn, isVerified, catchAsync(async (req,res,next)=>{
 //Displays the form to add a new notice
 router.get('/new',isLoggedIn, isComAd, isVerified, (req,res) => {
     if(req.user.user_role === "Manager")
-        throw new ExpressError("You are not allowed to access this page" , 401);
+    { req.flash('error', 'You are not allowed to access this page');
+    res.redirect('/');}
     res.render('notices/new');
 })
 
@@ -23,10 +24,13 @@ router.get('/new',isLoggedIn, isComAd, isVerified, (req,res) => {
 //Save the new notice in the database
 router.post('/', isLoggedIn,isComAd, isVerified, catchAsync(async (req,res,next) => {
     if(req.user.user_role === "Manager")
-        throw new ExpressError("You are not allowed to access this page" , 401);
+    { req.flash('error', 'You are not allowed to access this page');
+    res.redirect('/');}
         const notice = new Notice(req.body.notices);
         notice.author = req.user._id;
         await notice.save();
+         req.flash('success','Successfully added a Notice');
+        
         res.redirect('/notices');
 }))
 
@@ -44,7 +48,8 @@ router.get('/:id/edit', isLoggedIn, isComAd,isVerified, catchAsync(async (req,re
     if((req.user.user_role === 'Manager') || (req.user._id.equals(notice.author)) || (req.user.user_role === 'Admin'))
     res.render('notices/edit', { notice });
     else
-    throw new ExpressError("You are not not allowed access this page",401);
+    { req.flash('error', 'You are not allowed to access this page');
+    res.redirect('/');}
 }))
 
 //to save the edited details
@@ -54,10 +59,14 @@ router.put('/:id',isLoggedIn, isComAd, isVerified, catchAsync(async (req,res,nex
     if((req.user.user_role === 'Manager') || (req.user._id.equals(notice.author)) || (req.user.user_role === 'Admin'))
     {
         const noti = await Notice.findByIdAndUpdate(id, {...req.body.notices});
+         req.flash('success', 'Successfully updated ');
+
+
         res.redirect(`/notices/${notice._id}`);
     }
     else
-    throw new ExpressError("You are not not allowed access this page",401);
+    { req.flash('error', 'You are not allowed to access this page');
+    res.redirect('/');}
 }))
 
 //to delete the notice
@@ -67,10 +76,13 @@ router.delete('/:id',isVerified, catchAsync(async (req,res,next) => {
     if((req.user.user_role === 'Manager') || (req.user._id.equals(notice.author)) || (req.user.user_role === 'Admin'))
     {
         await Notice.findByIdAndDelete(id);
+         req.flash('success', 'Notice Deleted ');
+        
         res.redirect('/notices');
     }
     else
-    throw new ExpressError("You are not not allowed access this page",401);
+    { req.flash('error', 'You are not allowed to access this page');
+    res.redirect('/');}
 
 }))
 module.exports = router; 
