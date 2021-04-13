@@ -1,11 +1,12 @@
 <% layout('layouts/boilerplate')%>
     <%let edate=(JSON.stringify((student.dob )).substring(1, 11))%>
+    <%let res={url:student.resume.url,filename:student.resume.filename}%>
         <% if(student.verified === false) { %> 
 
         <div class="row">
             <h1 class="text-center">Edit Your Profile</h1>
             <div class="col-6 offset-3">
-                <form action="/students/<%=student._id%>?_method=PUT" method="POST" novalidate class="validated-form">
+                <form action="/students/<%=student._id%>?_method=PUT" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label class="form-label" for="name">Name</label>
                         <input class="form-control" type="text" id="title" name="students[name]"
@@ -57,11 +58,15 @@
                             value=<%=student.twelfth_marks %> >
 
                     </div>
-                    <div>
+                   <!-- <div>
                         <label class="form-label" for="resume">Resume</label>
                         <input class="form-control" type="text" id="resume" name="students[resume]"
-                            value=<%=student.resume %> >
+                            value= >
 
+                    </div>-->
+                    <div class="mb-3">
+                        <label class="form-label" for="resume">Resume</label>
+                        <input class="form-control" type="file" name="resume" id="resume" value=<%student.resume.url%>>
                     </div>
                     <div class="mb-3">
                         <button class="btn btn-info mt-3">UPDATE</button>
@@ -80,7 +85,7 @@
         <div class="row">
             <h1 class="text-center">Edit Your Profile</h1>
             <div class="col-6 offset-3">
-                <form action="/students/<%=student._id%>?_method=PUT" method="POST" novalidate class="validated-form">
+                <form action="/students/<%=student._id%>?_method=PUT" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label class="form-label" for="name">Name</label>
                         <input class="form-control" type="text" id="title" name="students[name]"
@@ -131,12 +136,12 @@
                         <input class="form-control" type="text" id="twelfth_marks" name="students[twelfth_marks]"
                             value=<%=student.twelfth_marks %> readonly>
                     </div>
-                    <div>
-                        <label class="form-label" for="resume">Resume</label>
-                        <input class="form-control" type="text" id="resume" name="students[resume]"
-                            value=<%=student.resume %> >
 
+                    <div class="mb-3">
+                        <label class="form-label" for="resume">Resume</label>
+                        <input class="form-control" type="file" name="resume" id="resume" value=<%res%>>
                     </div>
+
                     <div class="mb-3">
                         <button class="btn btn-info mt-3">UPDATE</button>
                     </div>

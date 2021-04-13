@@ -1,4 +1,8 @@
 const express=require('express');
+const {storage}= require('../cloudinary')
+const multer  = require('multer')
+const upload = multer({storage })
+const { cloudinary } = require('../cloudinary')
 const router = express.Router({ mergeParams: true });
 const catchAsync = require("../utils/catchAsync");
 const Student = require("../models/students");
@@ -40,11 +44,16 @@ router.get('/:id/verify', isLoggedIn, isAdmin, isVerified, catchAsync(async(req,
 }))
 
 //to save the edited details of studets 
-router.put('/:id',isLoggedIn, catchAsync(async (req,res,next)=>{
+router.put('/:id',isLoggedIn, upload.single('resume'), catchAsync(async (req,res,next)=>{
     const { id } = req.params;
     let student=await Student.findById(id);
     if(req.user.username===student.username){
         student.verified = false;
+        if(req.file){
+        await cloudinary.uploader.destroy(student.resume.filename)
+        student.resume = {url:req.file.path,filename:req.file.filename}
+
+        }
         await Student.findByIdAndUpdate(id, student);
         student = await Student.findByIdAndUpdate(id, {...req.body.students});
           req.flash('success','Updated');
