@@ -1,10 +1,13 @@
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
 const express = require('express');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const Job = require('./models/jobs');
 const Notice = require('./models/notices');
 const Event = require('./models/events');
-
 const User = require('./models/users');
 const Company = require('./models/companies');
 const Admin = require('./models/admins');
@@ -15,10 +18,11 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
-
+const {storage}= require('./cloudinary')
+const multer  = require('multer')
+const upload = multer({storage })
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
-
 const app = express();
 const JobRoutes = require('./routes/job');
 const EventRoutes = require('./routes/event');
@@ -97,19 +101,20 @@ app.post('/register/company', async (req, res, next) => {
     res.redirect('/login');
 })
 //Register as Student 
-app.get('/register/student', (req, res) => {
+app.get('/register/student',(req, res) => {
     res.render('users/Student_Registration')
 })
 
-app.post('/register/student', async (req, res, next) => {
-    const { username, password } = req.body.student;
+app.post('/register/student', upload.single('resume'), async (req, res, next) => {
+    console.log(req.body,req.file);
+    /*const { username, password } = req.body.student;
     const user_role = 'Student';
     const user = new User({ user_role, username });
     const student = new Student(req.body.student);
     await student.save();
     const registeredUser = await User.register(user, password);
     res.redirect('/login');
-
+    */
 })
 //Admin registration
 app.get('/register/admin', (req, res) => {
@@ -133,7 +138,7 @@ app.get('/login', (req, res, next) => {
 app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), (req, res) => {
     const redirectUrl = req.session.returnTo || '/myprofile';
     delete req.session.returnTo;
-  req.flash('success',' Successfully Loged In')
+  req.flash('success',' Successfully Logged In')
     res.redirect(redirectUrl);
 })
 
@@ -160,7 +165,7 @@ app.get('/myprofile',isLoggedIn,async(req,res)=>{
 })
 app.get('/logout',(req,res)=>{
     req.logout();
-    req.flash('success','Loged Out!!');
+    req.flash('success','Logged Out!!');
 
     res.redirect('/login');
 })
