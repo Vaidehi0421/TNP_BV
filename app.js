@@ -88,10 +88,10 @@ app.get('/register/company', (req, res) => {
     res.render('users/Company_Registration')
 })
 
-app.post('/register/company', async (req, res, next) => {
+app.post('/register/company', catchAsync( async (req, res, next) => {
 
     //console.log(req.body.company);
-    const { username, password } = req.body.company;
+   try{ const { username, password } = req.body.company;
     const user_role = 'Company';
     const user = new User({ user_role, username });
     //console.log(user);
@@ -99,15 +99,21 @@ app.post('/register/company', async (req, res, next) => {
     await company.save();
     const registeredUser = await User.register(user, password);
     res.redirect('/login');
-})
+}
+catch(e){
+    
+    req.flash('error',e.message)
+    res.redirect('/register/company')
+}
+}))
 //Register as Student 
 app.get('/register/student',(req, res) => {
     res.render('users/Student_Registration')
 })
 
-app.post('/register/student', upload.single('resume'), async (req, res, next) => {
+app.post('/register/student', upload.single('resume'), catchAsync( async (req, res, next) => {
     //console.log(req.body,req.file);
-    const { username, password } = req.body.student;
+  try  {const { username, password } = req.body.student;
     const user_role = 'Student';
     const user = new User({ user_role, username });
     const student = new Student(req.body.student);
@@ -115,28 +121,38 @@ app.post('/register/student', upload.single('resume'), async (req, res, next) =>
     await student.save();
     console.log(student);
     const registeredUser = await User.register(user, password);
-    res.redirect('/login');
-})
+    res.redirect('/login');}
+    catch(e){
+          
+        req.flash('error',e.message)
+        res.redirect('/register/student')
+    }
+}))
 //Admin registration
 app.get('/register/admin', (req, res) => {
     res.render('users/Admin_Registration')
 })
 
-app.post('/register/admin', async (req, res, next) => {
-    const { username, password } = req.body.admin;
+app.post('/register/admin', catchAsync( async (req, res, next) => {
+   try{ const { username, password } = req.body.admin;
     const user_role = 'Admin';
     const user = new User({ user_role, username });
     const admin = new Admin(req.body.admin);
     await admin.save();
     const registeredUser = await User.register(user, password);
-    res.redirect('/login');
-})
+    res.redirect('/login');}
+    catch(e)
+    {
+        req.flash('error',e.message)
+        res.redirect('/register/admin')
+    }
+}))
 
 app.get('/login', (req, res, next) => {
     res.render('users/login');
 })
 
-app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), (req, res) => {
+app.post('/login', passport.authenticate('local', {failureFlash: true, failureRedirect: '/login' }), (req, res) => {
     const redirectUrl = req.session.returnTo || '/myprofile';
     delete req.session.returnTo;
   req.flash('success',' Successfully Logged In')
