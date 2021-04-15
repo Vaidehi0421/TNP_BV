@@ -75,6 +75,7 @@ app.use((req, res, next) => {
 //PASSPORT
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(express.static(path.join(__dirname, 'public')))
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -83,11 +84,12 @@ app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     next();
 })
-
+app.use(express.static(path.join(__dirname, 'public')))
 //Register Company
 app.get('/register/company', (req, res) => {
     res.render('users/Company_Registration')
 })
+
 
 app.post('/register/company', validatecompany ,catchAsync(async (req, res, next) => {
     try{
@@ -105,13 +107,12 @@ app.post('/register/company', validatecompany ,catchAsync(async (req, res, next)
         req.flash('error', e.message);
         res.redirect('/register/company');
     }
-
-
 }))
 //Register as Student 
 app.get('/register/student',(req, res) => {
     res.render('users/Student_Registration')
 })
+
 
 app.post('/register/student', upload.single('resume'), validatestudent ,catchAsync(async (req, res, next) => {
     //console.log(req.body,req.file);
@@ -124,6 +125,7 @@ app.post('/register/student', upload.single('resume'), validatestudent ,catchAsy
     await student.save();
     //console.log(student);
     const registeredUser = await User.register(user, password);
+
     res.redirect('/login');
     }
     catch(e)
@@ -136,6 +138,7 @@ app.post('/register/student', upload.single('resume'), validatestudent ,catchAsy
 app.get('/register/admin', (req, res) => {
     res.render('users/Admin_Registration')
 })
+
 
 app.post('/register/admin', validateadmin ,catchAsync(async (req, res, next) => {
     try{
@@ -157,6 +160,7 @@ app.post('/register/admin', validateadmin ,catchAsync(async (req, res, next) => 
 app.get('/login', (req, res, next) => {
     res.render('users/login');
 })
+
 
 app.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
     const redirectUrl = req.session.returnTo || '/myprofile';
