@@ -2,7 +2,7 @@ const express=require('express');
 const router = express.Router({ mergeParams: true });
 const catchAsync = require("../utils/catchAsync");
 const Company = require("../models/companies");
-const { isLoggedIn ,isComAd , isCompany , isAdmin, isVerified} = require('../middleware');
+const { isLoggedIn ,isComAd , isCompany , isAdmin, isVerified, validatecompany} = require('../middleware');
 const ExpressError = require('../utils/ExpressError');
 
 //View a Company
@@ -44,7 +44,7 @@ router.put('/:id',isLoggedIn, catchAsync(async (req,res,next)=>{
     if(req.user.username===company.username){
         company.verified = false;
         await Company.findByIdAndUpdate(id, company);
-        company = await Company.findByIdAndUpdate(id, {...req.body.companies});
+        company = await Company.findByIdAndUpdate(id, {...req.body.company});
          req.flash('success', 'Successfully Updated!');
     
         res.redirect(`/companies/${company._id}`);  

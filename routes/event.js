@@ -2,7 +2,7 @@ const express=require('express');
 const router = express.Router({ mergeParams: true });
 const catchAsync = require("../utils/catchAsync");
 const Event = require("../models/events");
-const { isLoggedIn, isAdmin, isVerified } = require('../middleware');
+const { isLoggedIn, isAdmin, isVerified, validateevent } = require('../middleware');
 const Admin=require("../models/admins");
 const ExpressError=require('../utils/ExpressError');
 
@@ -22,7 +22,7 @@ router.get('/new', isLoggedIn, isAdmin , isVerified, (req,res) => {
 })
 
 //Save the new event in the database
-router.post('/', isLoggedIn,isAdmin,isVerified,catchAsync(async (req,res,next) => {
+router.post('/', isLoggedIn,isAdmin,isVerified,validateevent,catchAsync(async (req,res,next) => {
     if(req.user.user_role === 'Manager')
     { req.flash('error', 'You are not allowed to access this page');
     res.redirect('/');}
@@ -55,7 +55,7 @@ router.get('/:id/edit', isLoggedIn,isAdmin, isVerified, catchAsync(async (req,re
 }))
 
 //to save the edited details
-router.put('/:id',isLoggedIn,isAdmin, isVerified, catchAsync(async (req,res,next)=>{
+router.put('/:id',isLoggedIn,isAdmin, isVerified,validateevent,catchAsync(async (req,res,next)=>{
     const admin=await Admin.findOne({username:req.user.username})
     const { id } = req.params;
     const event = await Event.findById(id).populate('author');
