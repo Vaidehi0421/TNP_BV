@@ -2,7 +2,7 @@ const express=require('express');
 const router = express.Router({ mergeParams: true });
 const catchAsync = require("../utils/catchAsync");
 const Notice = require("../models/notices");
-const { isLoggedIn, isComAd, isVerified } = require('../middleware');
+const { isLoggedIn, isComAd, isVerified, validatenotice } = require('../middleware');
 const ExpressError = require("../utils/ExpressError");
 
 
@@ -22,7 +22,7 @@ router.get('/new',isLoggedIn, isComAd, isVerified, (req,res) => {
 
 
 //Save the new notice in the database
-router.post('/', isLoggedIn,isComAd, isVerified, catchAsync(async (req,res,next) => {
+router.post('/', isLoggedIn,isComAd, isVerified, validatenotice, catchAsync(async (req,res,next) => {
     if(req.user.user_role === "Manager")
     { req.flash('error', 'You are not allowed to access this page');
     res.redirect('/');}
@@ -53,7 +53,7 @@ router.get('/:id/edit', isLoggedIn, isComAd,isVerified, catchAsync(async (req,re
 }))
 
 //to save the edited details
-router.put('/:id',isLoggedIn, isComAd, isVerified, catchAsync(async (req,res,next)=>{
+router.put('/:id',isLoggedIn, isComAd, isVerified, validatenotice ,catchAsync(async (req,res,next)=>{
     const { id } = req.params;
     const notice = await Notice.findById(id);
     if((req.user.user_role === 'Manager') || (req.user._id.equals(notice.author)) || (req.user.user_role === 'Admin'))

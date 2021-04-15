@@ -6,7 +6,7 @@ const { cloudinary } = require('../cloudinary')
 const router = express.Router({ mergeParams: true });
 const catchAsync = require("../utils/catchAsync");
 const Student = require("../models/students");
-const { isLoggedIn ,isComAd , isAdmin, isVerified } = require('../middleware');
+const { isLoggedIn ,isComAd , isAdmin, isVerified, validatestudent } = require('../middleware');
 const ExpressError = require('../utils/ExpressError');
 
 //View a Student 
@@ -44,7 +44,7 @@ router.get('/:id/verify', isLoggedIn, isAdmin, isVerified, catchAsync(async(req,
 }))
 
 //to save the edited details of studets 
-router.put('/:id',isLoggedIn, upload.single('resume'), catchAsync(async (req,res,next)=>{
+router.put('/:id',isLoggedIn, upload.single('resume'),catchAsync(async (req,res,next)=>{
     const { id } = req.params;
     let student=await Student.findById(id);
     if(req.user.username===student.username){

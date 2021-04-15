@@ -3,6 +3,88 @@ const Student  = require('./models/students');
 const Company = require('./models/companies');
 const Admin = require('./models/admins');
 const Manager = require('./models/manager');
+const Joi = require('joi');
+const { number } = require('joi');
+const { adminSchema, companySchema, eventSchema, noticeSchema, studentSchema, jobSchema} = require('./schemas');
+
+module.exports.validateadmin = (req, res, next) => {
+    const { error } = adminSchema.validate(req.body);
+
+    const redirectUrl = req.originalUrl;
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        req.flash('error',msg);
+        res.redirect(redirectUrl);
+    } else {
+        next();
+    }
+}
+
+module.exports.validatecompany = (req, res, next) => {
+    const { error } = companySchema.validate(req.body);
+ 
+    const redirectUrl = req.originalUrl;
+    if (error) {
+        console.log(error);
+        const msg = error.details.map(el => el.message).join(',')
+        req.flash('error',msg)
+        res.redirect(redirectUrl);
+    } else {
+        next();
+    }
+}
+
+module.exports.validateevent = (req, res, next) => {
+    const { error } = eventSchema.validate(req.body);
+ 
+    const redirectUrl = req.originalUrl;
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        req.flash('error',msg);
+        res.redirect(redirectUrl);
+    } else {
+        next();
+    }
+}
+
+module.exports.validatenotice = (req, res, next) => {
+    const { error } = noticeSchema.validate(req.body);
+    const redirectUrl = req.originalUrl;
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        req.flash('error',msg);
+        res.redirect(redirectUrl);
+    } else {
+        next();
+    }
+}
+
+module.exports.validatestudent = (req, res, next) => {
+    const { error } = studentSchema.validate(req.body);
+    //console.log(req.body);
+    const redirectUrl = req.originalUrl;
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        req.flash('error',msg);
+        res.redirect(redirectUrl);
+    } else {
+        next();
+    }
+}
+
+module.exports.validatejob = (req, res, next) => {
+    const { error } = jobSchema.validate(req.body);
+    const redirectUrl = req.originalUrl;
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        req.flash('error',msg);
+        res.redirect(redirectUrl);
+    } else {
+        next();
+    }
+}
+
+
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
         req.session.returnTo = req.originalUrl
