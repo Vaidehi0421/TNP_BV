@@ -1,3 +1,19 @@
-h1{
-    color: blue;
+
+.home-img{
+    height: 400px;
+    width: 500px;
+    margin-bottom: 20px;
+    
+
 }
+.ml12 {
+    font-weight: 200;
+    font-size: 1.8em;
+    text-transform: uppercase;
+    letter-spacing: 0.5em;
+  }
+  
+  .ml12 .letter {
+    display: inline-block;
+    line-height: 1em;
+  }
