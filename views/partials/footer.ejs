@@ -1,5 +1,45 @@
 <footer class="footer bg-dark py-3 mt-auto">
-    <div class="container">
-        <span class="text-muted">&copy; Placement Hub BV 2021</span>
-    </div>
+   <div class="container">
+     <div class="row">
+       <div class="col">
+        <h1 class="m" style="  padding-bottom:5px; font-size: 15px;">Contact Us:</h1>
+        <h1 class="m" style=" padding: 0px; font-size: 10px;">Banasthali Vidyapith,<br>
+          P.O. Banasthali Vidyapith,<br>
+          Rajasthan - 304022</h1>
+          <h1 class="m" style=" padding: 0px; "><i class="fa fa-envelope" aria-hidden="true"></i> campusplacement@banasthali.in</h1>
+       </div>
+       <div class="col">
+        <h1 class="ml16" style=" text-align: center; font-size: 10px;"><span class="text-muted">&copy; Placement Hub BV 2021</span></h1>
+        <div style="text-align: center;"> 
+         <a href="https://www.facebook.com/banasthali.org/" target="_blank" style="color: white; margin-left: 3px;"><i class="fab fa-facebook-f"></i></a>
+           <a href="https://twitter.com/banasthali_vid?lang=en" target="_blank"style="color: white; margin-left: 3px;"><i class="fab fa-twitter"></i></a>
+           <a href="https://in.linkedin.com/school/banasthali-vidyapith/" target="_blank"><i class="fab fa-linkedin-in"style="color: white; margin-left: 3px;"></i></a></div>
+       </div>
+<div class="col">
+  <h1 class="m" style="  padding-bottom:5px; font-size: 15px;">About Us:</h1>
+  <h1 class="m" style=" padding: 0px; font-size: 10px;">Banasthali Vidyapith Placement Cell aims at building a strong interface between industry and the University for training and placement of students.</h1>
+</div>
+     </div>
+   </div>
+       
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+<script>
+    var textWrapper = document.querySelector('.ml16');
+textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+anime.timeline({loop: true})
+  .add({
+    targets: '.ml16 .letter',
+    translateY: [-100,0],
+    easing: "easeOutExpo",
+    duration: 1400,
+    delay: (el, i) => 30 * i
+  }).add({
+    targets: '.ml16',
+    opacity: 0,
+    duration: 1000,
+    easing: "easeOutExpo",
+    delay: 1000
+  });
+</script>
