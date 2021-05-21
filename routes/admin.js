@@ -3,7 +3,7 @@ const router = express.Router({ mergeParams: true });
 const catchAsync = require("../utils/catchAsync");
 const Admin = require("../models/admins");
 
-const { isLoggedIn ,isComAd , isCompany ,isVerified, isAdmin} = require('../middleware');
+const { isLoggedIn ,isComAd , isCompany ,isVerified, isAdmin, validateadmin} = require('../middleware');
 const ExpressError = require('../utils/ExpressError');
 //View  Admin
 router.get('/', isLoggedIn, catchAsync(async(req,res,next) => {

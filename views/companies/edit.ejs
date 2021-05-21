@@ -6,22 +6,22 @@
                 <form action="/companies/<%=company._id%>?_method=PUT" method="POST" novalidate class="validated-form">
                     <div class="mb-3">
                         <label class="form-label" for="name">Name</label>
-                        <input class="form-control" type="text" id="title" name="companies[name]"
+                        <input class="form-control" type="text" id="title" name="company[name]"
                             value="<%=company.name %> ">
                     </div>
                     <div>
                         <label class="form-label" for="cname">Company's Name</label>
-                        <input class="form-control" type="text" id="title" name="companies[cname]"
+                        <input class="form-control" type="text" id="title" name="company[cname]"
                         value="<%=company.cname %> ">
                     </div>
                     <div>
                         <label class="form-label" for="contact_number">Contact Number</label>
-                        <input class="form-control" type="text" id="contact_number" name="companies[contact_number]"
+                        <input class="form-control" type="text" id="contact_number" name="company[contact_number]"
                             value=<%=company.contact_number %> >
                     </div>
                     <div>
                         <label class="form-label" for="company_description">Company's Description</label>
-                        <textarea class="form-control"  name="companies[company_description]" id="description" required><%= company.company_description %></textarea>
+                        <textarea class="form-control"  name="company[company_description]" id="description" ><%= company.company_description %></textarea>
                     </div>
                     <div class="mb-3">
                         <button class="btn btn-info mt-3">UPDATE</button>
@@ -31,22 +31,22 @@
                     <form action="/companies/<%=company._id%>?_method=PUT" method="POST" novalidate class="validated-form">
                         <div class="mb-3">
                             <label class="form-label" for="name">Name</label>
-                            <input class="form-control" type="text" id="title" name="companies[name]"
+                            <input class="form-control" type="text" id="title" name="company[name]"
                                 value="<%=company.name %>" readonly>
                         </div>
                         <div>
                             <label class="form-label" for="cname">Company's Name</label>
-                            <input class="form-control" type="text" id="title" name="companies[cname]"
+                            <input class="form-control" type="text" id="title" name="company[cname]"
                             value="<%=company.cname %>" readonly>
                         </div>
                         <div>
                             <label class="form-label" for="contact_number">Contact Number</label>
-                            <input class="form-control" type="text" id="contact_number" name="companies[contact_number]"
+                            <input class="form-control" type="text" id="contact_number" name="company[contact_number]"
                                 value=<%=company.contact_number %> >
                         </div>
                         <div>
                             <label class="form-label" for="company_description">Company's Description</label>
-                            <textarea class="form-control"  name="companies[company_description]" id="description" required><%= company.company_description %></textarea>
+                            <textarea class="form-control"  name="company[company_description]" id="description" required><%= company.company_description %></textarea>
                         </div>
                         <div class="mb-3">
                             <button class="btn btn-info mt-3">UPDATE</button>

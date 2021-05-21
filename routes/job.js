@@ -3,7 +3,7 @@ const router = express.Router({ mergeParams: true });
 const catchAsync = require("../utils/catchAsync");
 const Job = require("../models/jobs");
 const Company=require("../models/companies");
-const { isLoggedIn ,isCompany, isVerified } = require('../middleware');
+const { isLoggedIn ,isCompany, isVerified , validatejob} = require('../middleware');
 const ExpressError = require('../utils/ExpressError');
 
 router.get('/',isLoggedIn, isVerified,catchAsync(async (req,res,next)=>{
@@ -31,7 +31,7 @@ router.get('/:id',isLoggedIn, isVerified, catchAsync(async (req,res,next)=>{
 }))
 
 //Save the new job in the database
-router.post('/', isLoggedIn,isCompany,isVerified,catchAsync(async (req,res,next) => {
+router.post('/', isLoggedIn,isCompany,isVerified,validatejob,catchAsync(async (req,res,next) => {
     if(req.user.user_role === 'Manager'){
     req.flash('error', 'You are not allowed to access this page');
     res.redirect('/jobs');
@@ -60,7 +60,7 @@ router.get('/:id/edit',isLoggedIn,isCompany,isVerified, catchAsync(async (req,re
 }))
 
 //to save the edited details
-router.put('/:id',isLoggedIn,isCompany,isVerified, catchAsync(async (req,res,next)=>{
+router.put('/:id',isLoggedIn,isCompany,isVerified,validatejob,catchAsync(async (req,res,next)=>{
     const company=await Company.findOne({username:req.user.username})
     const { id } = req.params;
     const job = await Job.findById(id).populate('author');

@@ -1,13 +1,17 @@
 <%- layout('layouts/boilerplate') %>
 
+
 <h1 class="ml12" style="text-align: center; padding-bottom: 10px; font-weight: 350; ">BANASTHALI VIDYAPITH PLACEMENT PORTAL</h1>
+
 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active home-img" >
         <img src="https://cbseneet2019.co.in/wp-content/uploads/2020/10/Banasthali-University-Admission-2021.png"  width="1110px" height= "400px">
       </div>
+
       <div class="carousel-item  home-img">
         <img src="https://www.aicbanasthali.org/wp-content/uploads/2019/05/banner-2.jpg" >
+
       </div>
       <div class="carousel-item home-img" >
         <img src="https://www.aicbanasthali.org/wp-content/uploads/2018/04/Untitled-3.jpg" >
@@ -15,6 +19,7 @@
       
       
     </div>
+
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Previous</span>
@@ -61,6 +66,7 @@ box-shadow: 1px -1px 17px 10px #ccc;
   var textWrapper = document.querySelector('.ml12');
 textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
 
+
 anime.timeline({loop: true})
   .add({
     targets: '.ml12 .letter',
@@ -80,4 +86,5 @@ anime.timeline({loop: true})
   });
 </script>
   
+
 
